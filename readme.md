@@ -1,6 +1,7 @@
 ENGG160_Repo
 ---------------------------
-Note:  
+#### PLEASE KEEP THE README UP TO DATE
+#### Note:  
 In order to use the program, a few things must be configured for the device to work
 1. The port in master.py needs to be set to the port the robot is plugged into your computer in. This can be found in the Arduino IDE
 2. the boards.py file in pyfirmata, replace the `'arduino'` section with   
@@ -13,3 +14,13 @@ In order to use the program, a few things must be configured for the device to w
         'disabled': (0, 1)  # Rx, Tx, Crystal
     }
 ```
+
+#### Files in repo
+##### `master.py`
+This file controls the main flow of the program.
+##### `drive.py`
+This file contains a class which contains functions to move the robot in a streamlined fashion.
+##### `compassTest.py`
+This file has preliminary testing for using the compass to turn the robot accurately
+##### `__init__.py`
+This file is supposed to do something just not sure what... imports maybe? configurations? if you know, do tell.

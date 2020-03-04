@@ -2,7 +2,7 @@ import pyfirmata
 import drive
 import time
 
-
+# Look at the really pretty readme, and keep it up to date when you change it
 bot = pyfirmata.Arduino('COM4');
 
 driver = drive.Drive(bot)
