@@ -1,4 +1,7 @@
 import pyfirmata
+import time
+
+
 
 class Drive:
 
@@ -8,6 +11,18 @@ class Drive:
         self.rMotor = board.get_pin('d:9:p')
         self.lDir = board.get_pin('d:14:o')
         self.rDir = board.get_pin('d:15:o')
+
+    def tankDriveA(self,left,right,aTime):
+        # not finished yet, maybe don't use
+        steps = 60*aTime
+
+        for x in range(steps):
+            iTime = time()
+            self.tankDrive(left*x/steps,right*x/steps)
+            rem = 1/60 - (time() - iTime)
+            if rem > 0:
+                time.sleep(rem)
+        self.tankDrive(left,right)
 
     def tankDrive(self,left,right):
         lm = abs(left)
