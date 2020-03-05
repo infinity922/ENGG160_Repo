@@ -3,8 +3,9 @@ ENGG160_Repo
 #### PLEASE KEEP THE README UP TO DATE
 #### Note:  
 In order to use the program, a few things must be configured for the device to work
+1. Pin assignments for the Zumo robot can be found at https://www.pololu.com/docs/0J63/3.10
 1. The port in master.py needs to be set to the port the robot is plugged into your computer in. This can be found in the Arduino IDE
-2. the boards.py file in pyfirmata, replace the `'arduino'` section with   
+2. In the boards.py file in pyfirmata, replace the `'arduino'` section with   
 ```
 'arduino': {
         'digital': tuple(x for x in range(30)),  
