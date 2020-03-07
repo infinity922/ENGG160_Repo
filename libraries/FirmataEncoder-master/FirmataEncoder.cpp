@@ -40,7 +40,7 @@ FirmataEncoder::FirmataEncoder()
 */
 void FirmataEncoder::handleCapability(byte pin) {}
 boolean FirmataEncoder::handlePinMode(byte pin, int mode) {return false;}
-void FirmataEncoder::reset(){}
+
 
 boolean FirmataEncoder::handleSysex(byte command, byte argc, byte *argv)
 {
@@ -81,6 +81,8 @@ boolean FirmataEncoder::handleSysex(byte command, byte argc, byte *argv)
   }
   return false;
 }
+
+void FirmataEncoder::reset(){}
 void FirmataEncoder::setLeftMotorPower(byte powerA, byte powerB)
 {
     int16_t power = powerA + 128*powerB;

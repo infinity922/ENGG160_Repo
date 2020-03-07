@@ -43,10 +43,8 @@ public:
   // FirmataFeature implementation
   void handleCapability(byte pin);
   boolean handlePinMode(byte pin, int mode);
-  void reset();
-
   boolean handleSysex(byte command, byte argc, byte *argv);
-
+  void reset();
   // FirmataEncoder implementation
   void setLeftMotorPower(byte powerA, byte powerB);
   void setLeftMotorPower(byte powerA, byte powerB);
