@@ -1,20 +1,14 @@
-import pyfirmata
 import time
 
+from Python_Code.robot import Robot
 
+ENCODER_DATA = 0x61
 class Drive:
     # This class handles all the driving operations for the robot
 
-    def __init__(self, board: pyfirmata.Board):
+    def __init__(self, robot: Robot):
         # Here we initialize the board and pin setup for the drive motors
-        self.board = board
-        self.lMotor = board.get_pin('d:10:p')
-        self.rMotor = board.get_pin('d:9:p')
-        self.lDir = board.get_pin('d:14:o')
-        self.rDir = board.get_pin('d:15:o')
-        # Need to add encoder pins
-        self.lEnc = board.get_pin('a:5:i')
-        self.rEnc = board.get_pin('d:7:i')
+        self.r = robot
 
         # initialize current power variables
         self.cleft = 0
@@ -55,10 +49,10 @@ class Drive:
             rd = 0
 
         # write the values to the physical pins
-        self.lDir.write(ld)
-        self.rDir.write(rd)
-        self.lMotor.write(lm)
-        self.rMotor.write(rm)
+        self.r.lDir.write(ld)
+        self.r.rDir.write(rd)
+        self.r.lMotor.write(lm)
+        self.r.rMotor.write(rm)
 
         # store current power values
         self.cleft = left
@@ -66,8 +60,8 @@ class Drive:
 
     def stop(self):
         # This function stops the robot's drive motors
-        self.lMotor.write(0)
-        self.rMotor.write(0)
+        self.r.lMotor.write(0)
+        self.r.rMotor.write(0)
         self.cleft = 0
         self.cright = 0
 
@@ -79,13 +73,17 @@ class Drive:
         rcounter = 0
 
     def encoderRead(self):
-        counts = 0
-        last = 0
-        while True:
-            cur = self.lEnc.read()
-            if cur != last:
+        print('active')
+        self.r.get_encoder_report()
+        while self.r.board.positionl<10000:
+            self.r.board.iterate()
+            self.r.get_encoder_report()
+
+            """if cur != last:
                 counts += 1
                 last = cur
             # print(counts)
-            print(cur)
+            print(cur)"""
+
+
 

@@ -1,12 +1,18 @@
-import pyfirmata
-import drive
-import time
-
 # Look at the readme, and keep it up to date when you change the code
-bot = pyfirmata.Arduino('COM4')  # replace this address with the one from your Arduino IDE
+from Python_Code.drive import Drive
+from Python_Code.robot import Robot
+import time
+r = Robot()  # initialize the robot
 
-driver = drive.Drive(bot)  # initialize the drive
+driver = Drive(r)  # initialize the driver
+# driver.tankDrive(0.5, 0.5)
+
+r.board.iterate()
+driver.tankDrive(0.7,0.7)
 driver.encoderRead()
+driver.stop()
+r.board.reset_encoders()
+r.board.iterate()
 # Here would be a state machine once a few more pieces are in place
 # driver.tankDrive(0.5,-0.5)
 # time.sleep(5)
