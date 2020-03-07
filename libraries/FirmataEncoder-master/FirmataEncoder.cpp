@@ -26,7 +26,7 @@
 
 static byte autoReport = 0x02;
 static Zumo32U4Encoders u4Encoders;
-static Zumo32U4Motors u4Motors
+static Zumo32U4Motors u4Motors;
 
 /* Constructor */
 FirmataEncoder::FirmataEncoder()
@@ -52,12 +52,12 @@ boolean FirmataEncoder::handleSysex(byte command, byte argc, byte *argv)
 
     if (encoderCommand == LEFT_MOTOR_POWER) {
         setLeftMotorPower(argv[1], argv[2]);
-        return True;
+        return true;
     }
 
-      if (encoderCommand == RIGH_MOTOR_POWER) {
+      if (encoderCommand == RIGHT_MOTOR_POWER) {
           setRightMotorPower(argv[1], argv[2]);
-          return True;
+          return true;
       }
 
 

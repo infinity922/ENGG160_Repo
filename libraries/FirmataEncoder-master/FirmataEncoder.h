@@ -28,11 +28,13 @@
 // safe if 'attachInterrupt' is never used in the same time
 //#define ENCODER_OPTIMIZE_INTERRUPTS // => not compiling
 #include <Zumo32U4Encoders.h>
+#include <Zumo32U4Motors.h>
 
 #define MAX_ENCODERS                5 // arbitrary value, may need to adjust
 #define LEFT_MOTOR_POWER            (0x00)
 #define RIGHT_MOTOR_POWER           (0x01)
 #define ENCODER_RESET_POSITION      (0x03)
+#define ENCODER_REPORT_POSTITON     (0x04)
 
 class FirmataEncoder:public FirmataFeature
 {
