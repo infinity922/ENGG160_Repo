@@ -42,7 +42,7 @@ public:
 
   // FirmataFeature implementation
   void handleCapability(byte pin);
-  boolean handlePinMode(byte pin);
+  boolean handlePinMode(byte pin, int mode);
   void reset();
 
   boolean handleSysex(byte command, byte argc, byte *argv);
