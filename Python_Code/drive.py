@@ -34,25 +34,8 @@ class Drive:
         """ This function takes a left and right drive motor power between -1 (full reverse) and 1 (full forward) and
         sends them to the motors """
 
-        # Take the absolute value of the power to find what to send to the motor power pins
-        lm = abs(left)
-        rm = abs(right)
-
-        # set appropriate values to the motor direction pins
-        if left < 0:
-            ld = 0
-        else:
-            ld = 1
-        if right < 0:
-            rd = 1
-        else:
-            rd = 0
-
-        # write the values to the physical pins
-        self.r.lDir.write(ld)
-        self.r.rDir.write(rd)
-        self.r.lMotor.write(lm)
-        self.r.rMotor.write(rm)
+        self.r.set_left_motor(left)
+        self.r.set_right_motor(right)
 
         # store current power values
         self.cleft = left
@@ -60,8 +43,8 @@ class Drive:
 
     def stop(self):
         # This function stops the robot's drive motors
-        self.r.lMotor.write(0)
-        self.r.rMotor.write(0)
+        self.r.set_left_motor(0)
+        self.r.set_right_motor(0)
         self.cleft = 0
         self.cright = 0
 
@@ -72,14 +55,14 @@ class Drive:
         lcounter = 0
         rcounter = 0
 
-    def encoderRead(self):
+    """def encoderRead(self):
         print('active')
         self.r.get_encoder_report()
         while self.r.board.positionl<10000:
             self.r.board.iterate()
             self.r.get_encoder_report()
 
-            """if cur != last:
+            if cur != last:
                 counts += 1
                 last = cur
             # print(counts)
