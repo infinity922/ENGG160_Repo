@@ -34,7 +34,7 @@
 #define LEFT_MOTOR_POWER            (0x00)
 #define RIGHT_MOTOR_POWER           (0x01)
 #define ENCODER_RESET_POSITION      (0x03)
-#define ENCODER_REPORT_POSTITON     (0x04)
+#define ENCODER_REPORT_POSITION     (0x04)
 
 class FirmataEncoder:public FirmataFeature
 {
