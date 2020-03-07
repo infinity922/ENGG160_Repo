@@ -39,7 +39,7 @@ FirmataEncoder::FirmataEncoder()
  * See protocol details in "examples/SimpleFirmataEncoder/SimpleFirmataEncoder.ino"
 */
 void FirmataEncoder::handleCapability(byte pin) {}
-boolean FirmataEncoder::handlePinMode(byte pin) {return false;}
+boolean FirmataEncoder::handlePinMode(byte pin, int mode) {return false;}
 void FirmataEncoder::reset(){}
 
 boolean FirmataEncoder::handleSysex(byte command, byte argc, byte *argv)
