@@ -17,52 +17,21 @@
 
 #include <ConfigurableFirmata.h>
 #include <Zumo32U4Encoders.h>
+#include <Zumo32U4Motors.h>
 #include <string.h>
 #include "FirmataEncoder.h"
 
 #define isAttached(encoderNum) (encoderNum < MAX_ENCODERS && encoders[encoderNum])
 
 
-static int32_t positions[MAX_ENCODERS];
 static byte autoReport = 0x02;
 static Zumo32U4Encoders u4Encoders;
+static Zumo32U4Motors u4Motors
 
 /* Constructor */
 FirmataEncoder::FirmataEncoder()
 {
 
-}
-
-void FirmataEncoder::attachEncoder(byte encoderNum, byte pinANum, byte pinBNum)
-{
-
-
-}
-
-void FirmataEncoder::detachEncoder(byte encoderNum)
-{
-
-}
-
-boolean FirmataEncoder::handlePinMode(byte pin, int mode)
-{
-  if (mode == PIN_MODE_ENCODER) {
-    if (IS_PIN_INTERRUPT(pin))
-    {
-      // nothing to do, pins states are managed
-      // in "attach/detach Encoder" methods
-      return true;
-    }
-  }
-  return false;
-}
-
-void FirmataEncoder::handleCapability(byte pin)
-{
-  if (IS_PIN_INTERRUPT(pin)) {
-    Firmata.write(PIN_MODE_ENCODER);
-    Firmata.write(28); //28 bits used for absolute position
-  }
 }
 
 
@@ -77,18 +46,15 @@ boolean FirmataEncoder::handleSysex(byte command, byte argc, byte *argv)
 
     encoderCommand = argv[0];
 
-    if (encoderCommand == ENCODER_ATTACH)
-    {
-      encoderNum = argv[1];
-      pinA = argv[2];
-      pinB = argv[3];
-      if (Firmata.getPinMode(pinA) == PIN_MODE_IGNORE || Firmata.getPinMode(pinB) == PIN_MODE_IGNORE)
-      {
-        return false;
-      }
-      attachEncoder(encoderNum, pinA, pinB);
-      return true;
+    if (encoderCommand == LEFT_MOTOR_POWER) {
+        setLeftMotorPower(argv[1], argv[2]);
+        return True;
     }
+
+      if (encoderCommand == RIGH_MOTOR_POWER) {
+          setRightMotorPower(argv[1], argv[2]);
+          return True;
+      }
 
 
     if (encoderCommand == ENCODER_REPORT_POSITION)
@@ -98,11 +64,6 @@ boolean FirmataEncoder::handleSysex(byte command, byte argc, byte *argv)
       return true;
     }
 
-    if (encoderCommand == ENCODER_REPORT_POSITIONS)
-    {
-      reportPositions();
-      return true;
-    }
 
     if (encoderCommand == ENCODER_RESET_POSITION)
     {
@@ -110,38 +71,25 @@ boolean FirmataEncoder::handleSysex(byte command, byte argc, byte *argv)
       resetPosition(encoderNum);
       return true;
     }
-    if (encoderCommand == ENCODER_REPORT_AUTO)
-    {
-      autoReport = argv[1];
-      return true;
-    }
 
-    if (encoderCommand == ENCODER_DETACH)
-    {
-      encoderNum = argv[1];
-      detachEncoder(encoderNum);
-      return true;
-    }
 
     //Firmata.sendString("Encoder Error: Invalid command");
   }
   return false;
 }
-
-void FirmataEncoder::reset()
+void FirmataEncoder::setLeftMotorPower(byte powerA, byte powerB)
 {
+    int16_t power = powerA + 128*powerB;
+    u4Motors.setLeftSpeed(power)
+
+}
+void FirmataEncoder::setRightMotorPower(byte powerA, byte powerB)
+{
+    int16_t power = powerA + 128*powerB;
+    u4Motors.setRightSpeed(power)
 
 }
 
-void FirmataEncoder::report()
-{
-
-}
-
-boolean FirmataEncoder::isEncoderAttached(byte encoderNum)
-{
-  return true;
-}
 
 void FirmataEncoder::resetPosition(byte encoderNum)
 {
@@ -163,15 +111,12 @@ void FirmataEncoder::reportPosition(byte encoder)
 
 }
 // Report all attached encoders positions (one message for all encoders)
-void FirmataEncoder::reportPositions()
-{
 
-}
 
 void FirmataEncoder::_reportEncoderPosition(byte encoder, int16_t positionl, int16_t positionr)
 {
-  long absValuel = abs(positionl);
-  long absValuer = abs(positionr);
+  short absValuel = abs(positionl);
+  short absValuer = abs(positionr);
   byte directionl = positionl >= 0 ? 0x00 : 0x01;
   byte directionr = positionr >= 0 ? 0x00 : 0x01;
   Firmata.write((directionl << 6) | (directionr));
@@ -181,12 +126,3 @@ void FirmataEncoder::_reportEncoderPosition(byte encoder, int16_t positionl, int
   Firmata.write((byte)(absValuer >> 7) & 0x7F);
 }
 
-void FirmataEncoder::toggleAutoReport(byte report)
-{
-
-}
-
-bool FirmataEncoder::isReportingEnabled()
-{
-  return true;
-}

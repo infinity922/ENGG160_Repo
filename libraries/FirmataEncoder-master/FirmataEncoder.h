@@ -30,12 +30,9 @@
 #include <Zumo32U4Encoders.h>
 
 #define MAX_ENCODERS                5 // arbitrary value, may need to adjust
-#define ENCODER_ATTACH              (0x00)
-#define ENCODER_REPORT_POSITION     (0x01)
-#define ENCODER_REPORT_POSITIONS    (0x02)
+#define LEFT_MOTOR_POWER            (0x00)
+#define RIGHT_MOTOR_POWER           (0x01)
 #define ENCODER_RESET_POSITION      (0x03)
-#define ENCODER_REPORT_AUTO         (0x04)
-#define ENCODER_DETACH              (0x05)
 
 class FirmataEncoder:public FirmataFeature
 {
@@ -44,21 +41,14 @@ public:
   //~FirmataEncoder(); => never destroy in practice
 
   // FirmataFeature implementation
-  boolean handlePinMode(byte pin, int mode);
-  void handleCapability(byte pin);
   boolean handleSysex(byte command, byte argc, byte *argv);
-  void reset();
 
   // FirmataEncoder implementation
-  void report();
-  boolean isEncoderAttached(byte encoderNum);
-  void attachEncoder(byte encoderNum, byte pinANum, byte pinBNum);
-  void detachEncoder(byte encoderNum);
+  void setLeftMotorPower(byte powerA, byte powerB);
+  void setLeftMotorPower(byte powerA, byte powerB);
   void reportPosition(byte encoderNum);
-  void reportPositions();
   void resetPosition(byte encoderNum);
-  void toggleAutoReport(byte report);
-  bool isReportingEnabled();
+
 
 private:
   static void _reportEncoderPosition(byte encoder, int16_t positionl, int16_t positionr);
