@@ -108,8 +108,7 @@ void FirmataEncoder::setRightMotorPower(byte powerA, byte powerB)
 void FirmataEncoder::resetPosition(byte encoderNum)
 {
   int16_t re = u4Encoders.getCountsAndResetLeft();
-  re = u4Encoders.getCountsAndResetLeft();
-  reportPosition(1);
+  int16_t ra = u4Encoders.getCountsAndResetLeft();
 }
 
 // Report specify encoder postion using midi protocol
