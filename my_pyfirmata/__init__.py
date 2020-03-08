@@ -1,5 +1,5 @@
-from .boards import BOARDS
-from .my_pyfirmata import *  # NOQA
+from my_pyfirmata.boards import BOARDS
+from my_pyfirmata.my_pyfirmata import *  # NOQA
 
 # TODO: should change above import to an explicit list, but people might rely on
 # it, so do it in a backwards breaking release

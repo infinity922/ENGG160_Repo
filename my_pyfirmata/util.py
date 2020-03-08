@@ -7,7 +7,7 @@ import time
 
 import serial
 
-from .boards import BOARDS
+from my_pyfirmata.boards import BOARDS
 
 
 def get_the_board(
