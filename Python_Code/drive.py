@@ -1,6 +1,6 @@
 import time
 
-from Python_Code.robot import Robot
+from robot import Robot
 
 ENCODER_DATA = 0x61
 class Drive:
