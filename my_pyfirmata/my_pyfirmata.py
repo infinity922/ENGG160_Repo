@@ -98,6 +98,7 @@ class Board(object):
         self.pass_time(BOARD_SETUP_WAIT_TIME)
         self.name = name
         self._layout = layout
+        self.read_encoders = False
         if not self.name:
             self.name = port
 
@@ -277,15 +278,13 @@ class Board(object):
         This method should be called in a main loop or in an :class:`Iterator`
         instance to keep this boards pin values up to date.
         """
-        print('iterate startedd')
+
         byte = self.sp.read()
-        print('got reading')
         if not byte:
             return
         data = ord(byte)
         received_data = []
         handler = None
-        print('reading')
         if data < START_SYSEX:
             # These commands can have 'channel data' like a pin nummber appended.
             try:
@@ -378,7 +377,7 @@ class Board(object):
         enc = direction - dire << 6
         self.positionl = p1 + (p2 << 7)
         self.positionr = p3 + (p4 << 7)
-        print(p2)
+        self.read_encoders = False
 
     def _handle_report_version(self, major, minor):
         self.firmata_version = (major, minor)
@@ -408,6 +407,13 @@ class Board(object):
         self.send_sysex(0x61, bytearray([0x03, 1]))
         self.positionl = 0
         self.positionr = 0
+
+    def get_new_encoder_positions(self):
+        if self.read_encoders is False:
+            self.read_encoders = True
+            return [self.positionl, self.positionr]
+        else:
+            return False
 
 
 class Port(object):
