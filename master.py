@@ -1,6 +1,6 @@
 # Look at the readme, and keep it up to date when you change the code
-from drive import Drive
-from robot import Robot
+from Python_Code.drive import Drive
+from Python_Code.robot import Robot
 import time
 r = Robot()  # initialize the robot
 
