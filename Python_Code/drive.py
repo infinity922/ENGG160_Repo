@@ -55,7 +55,18 @@ class Drive:
         lcounter = 0
         rcounter = 0
 
+    """def encoderRead(self):
+        print('active')
+        self.r.get_encoder_report()
+        while self.r.board.positionl<10000:
+            self.r.board.iterate()
+            self.r.get_encoder_report()
 
+            if cur != last:
+                counts += 1
+                last = cur
+            # print(counts)
+            print(cur)"""
 
 
 
