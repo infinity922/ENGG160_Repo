@@ -1,4 +1,4 @@
-import my_pyfirmata
+from my_pyfirmata import my_pyfirmata
 
 START_SYSEX = 0xF0
 END_SYSEX = 0xF7
