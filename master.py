@@ -16,7 +16,7 @@ while running:
     pos = 0
     if state is 0:
         driver.tankDrive(0.4, 0.4)
-        pos = driver.encoderRead()
+        pos = r.get_left_encoder()
         print(pos)
         if pos >= 5000:
             state += 1
