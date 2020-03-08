@@ -27,7 +27,7 @@
 // This optional setting causes Encoder to use more optimized code
 // safe if 'attachInterrupt' is never used in the same time
 //#define ENCODER_OPTIMIZE_INTERRUPTS // => not compiling
-#include <Zumo32U4>
+#include <Zumo32U4.h>
 
 #define NUM_SENSORS 5
 
