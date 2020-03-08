@@ -5,7 +5,7 @@ import time
 
 import serial
 
-from .util import pin_list_to_board_dict, to_two_bytes, two_byte_iter_to_str
+from my_pyfirmata.util import pin_list_to_board_dict, to_two_bytes, two_byte_iter_to_str
 
 # Message command bytes (0x80(128) to 0xFF(255)) - straight from Firmata.h
 DIGITAL_MESSAGE = 0x90      # send data for a digital pin
@@ -277,12 +277,15 @@ class Board(object):
         This method should be called in a main loop or in an :class:`Iterator`
         instance to keep this boards pin values up to date.
         """
+        print('iterate startedd')
         byte = self.sp.read()
+        print('got reading')
         if not byte:
             return
         data = ord(byte)
         received_data = []
         handler = None
+        print('reading')
         if data < START_SYSEX:
             # These commands can have 'channel data' like a pin nummber appended.
             try:

@@ -6,10 +6,12 @@ r = Robot()  # initialize the robot
 
 driver = Drive(r)  # initialize the driver
 # driver.tankDrive(0.5, 0.5)
-
+print("heree")
 running = True
 state = 0
 
 while running:
-    r.board.iterate()
+    if r.board.bytes_available():
+        while r.board.bytes_available():
+            r.board.iterate()
     driver.tankDrive(0.4, 0.4)

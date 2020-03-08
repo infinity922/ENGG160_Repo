@@ -7,7 +7,7 @@ import time
 
 import serial
 
-from .boards import BOARDS
+from my_pyfirmata.boards import BOARDS
 
 
 def get_the_board(
@@ -21,7 +21,7 @@ def get_the_board(
     IOError if it can't find a board, on a serial, or if it finds more than
     one.
     """
-    from .pyfirmata import Board  # prevent a circular import
+    from .my_pyfirmata import Board  # prevent a circular import
 
     boards = []
     for device in os.listdir(base_dir):
