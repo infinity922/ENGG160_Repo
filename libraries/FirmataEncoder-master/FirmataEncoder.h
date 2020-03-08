@@ -40,8 +40,6 @@
 
 //IMU instruction bytes
 
-#define
-
 class FirmataEncoder:public FirmataFeature
 {
 public:
