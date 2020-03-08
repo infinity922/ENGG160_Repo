@@ -54,12 +54,12 @@ boolean FirmataEncoder::handleSysex(byte command, byte argc, byte *argv)
     encoderCommand = argv[0];
 
     if (encoderCommand == LEFT_MOTOR_POWER) {
-        setLeftMotorPower(argv[1], argv[2]);
+        setLeftMotorPower(argv[1], argv[2], argv[3]);
         return true;
     }
 
       if (encoderCommand == RIGHT_MOTOR_POWER) {
-          setRightMotorPower(argv[1], argv[2]);
+          setRightMotorPower(argv[1], argv[2], argv[3]);
           return true;
       }
 
