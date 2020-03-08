@@ -10,7 +10,7 @@ ZUMO = 0x61
 class Robot:
 
     def __init__(self):
-        self.board = my_pyfirmata.Arduino('COM4')  # replace this address with the one from your Arduino IDE
+        self.board = my_pyfirmata.Arduino('/dev/ttyACM0')  # replace this address with the one from your Arduino IDE
 
     def set_left_motor(self, power):
         power = int(round(power*400))
