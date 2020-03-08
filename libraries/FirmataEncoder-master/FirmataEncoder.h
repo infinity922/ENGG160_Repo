@@ -29,7 +29,7 @@
 //#define ENCODER_OPTIMIZE_INTERRUPTS // => not compiling
 #include <Zumo32U4.h>
 
-#define NUM_SENSORS 5
+#define NUM_SENSORS 3
 
 #define MAX_ENCODERS                5 // arbitrary value, may need to adjust
 #define LEFT_MOTOR_POWER            (0x00)
