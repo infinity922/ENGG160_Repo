@@ -23,6 +23,7 @@ REPORT_VERSION = 0xF9       # report firmware version
 SYSTEM_RESET = 0xFF         # reset from MIDI
 QUERY_FIRMWARE = 0x79       # query the firmware name
 ENCODER_DATA = 0x61
+LINE_SENSORS = 0x05
 
 # extended command set using sysex (0-127/0x00-0x7F)
 # 0x00-0x0F reserved for user-defined commands */
@@ -98,7 +99,8 @@ class Board(object):
         self.pass_time(BOARD_SETUP_WAIT_TIME)
         self.name = name
         self._layout = layout
-        self.read_encoders = False
+        self.read_encoders = True
+        self.read_lines = True
         if not self.name:
             self.name = port
 
@@ -172,6 +174,7 @@ class Board(object):
         self.add_cmd_handler(REPORT_VERSION, self._handle_report_version)
         self.add_cmd_handler(REPORT_FIRMWARE, self._handle_report_firmware)
         self.add_cmd_handler(ENCODER_DATA, self._handle_encoder_data)
+        self.add_cmd_handler(LINE_SENSORS, self._handle_line_data)
 
     def auto_setup(self):
         """
@@ -379,6 +382,12 @@ class Board(object):
         self.positionr = p3 + (p4 << 7)
         self.read_encoders = False
 
+    def _handle_line_data(self, pkg1, pkg2, pkg3, pkg4, pkg5, pkg6):
+        self.line_sensor_0 = pkg1 + (pkg2 << 7)
+        self.line_sensor_1 = pkg3 + (pkg4 << 7)
+        self.line_sensor_2 = pkg5 + (pkg6 << 7)
+        self.read_lines = False
+
     def _handle_report_version(self, major, minor):
         self.firmata_version = (major, minor)
 
@@ -412,6 +421,13 @@ class Board(object):
         if self.read_encoders is False:
             self.read_encoders = True
             return [self.positionl, self.positionr]
+        else:
+            return False
+
+    def get_new_lines(self):
+        if self.read_lines is False:
+            self.read_lines = True
+            return [self.line_sensor_0, self.line_sensor_1, self.line_sensor_2]
         else:
             return False
 
