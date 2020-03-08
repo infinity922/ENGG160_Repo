@@ -28,6 +28,7 @@ while running:
         print(pos)
         state += 1
     elif state is 2:
-        running = False
+        lines = r.get_lines()
+        print(lines)
 
 print('done')
