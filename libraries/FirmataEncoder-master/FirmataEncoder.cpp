@@ -91,16 +91,24 @@ boolean FirmataEncoder::handleSysex(byte command, byte argc, byte *argv)
 void FirmataEncoder::reset(){}
 
 
-void FirmataEncoder::setLeftMotorPower(byte powerA, byte powerB)
+void FirmataEncoder::setLeftMotorPower(byte powerA, byte powerB, byte dir)
 {
     int16_t power = powerA + 128*powerB;
-    u4Motors.setLeftSpeed(power);
+    if(dir == 1){
+        u4Motors.setLeftSpeed(power);
+    }else {
+        u4Motors.setLeftSpeed(-power);
+    }
 
 }
-void FirmataEncoder::setRightMotorPower(byte powerA, byte powerB)
+void FirmataEncoder::setRightMotorPower(byte powerA, byte powerB, byte dir)
 {
     int16_t power = powerA + 128*powerB;
-    u4Motors.setRightSpeed(power);
+    if(dir == 1){
+        u4Motors.setRightSpeed(power);
+    }else {
+        u4Motors.setRightSpeed(-power);
+    }
 
 }
 

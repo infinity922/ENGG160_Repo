@@ -52,8 +52,8 @@ public:
   boolean handleSysex(byte command, byte argc, byte *argv);
   void reset();
   // FirmataEncoder implementation
-  void setLeftMotorPower(byte powerA, byte powerB);
-  void setRightMotorPower(byte powerA, byte powerB);
+  void setLeftMotorPower(byte powerA, byte powerB, byte dir);
+  void setRightMotorPower(byte powerA, byte powerB, byte dir);
   void reportPosition(byte encoderNum);
   void resetPosition(byte encoderNum);
   void reportLineSensors();
