@@ -126,6 +126,7 @@ void FirmataEncoder::reportPosition(byte encoder)
 }
 
 void FirmataEncoder::reportLineSensors() {
+    lineSensors.emittersOn();
     lineSensors.read(lineSensorValues);
     short int sensor0 = lineSensorValues[0];
     short int sensor1 = lineSensorValues[1];
