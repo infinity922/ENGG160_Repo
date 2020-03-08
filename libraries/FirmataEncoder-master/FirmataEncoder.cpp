@@ -78,7 +78,7 @@ boolean FirmataEncoder::handleSysex(byte command, byte argc, byte *argv)
       resetPosition(encoderNum);
       return true;
     }
-    if (enableReports == LINE_SENSORS){
+    if (encoderCommand == LINE_SENSORS){
         reportLineSensors();
     }
 
