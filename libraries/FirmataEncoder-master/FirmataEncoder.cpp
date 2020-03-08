@@ -83,6 +83,8 @@ boolean FirmataEncoder::handleSysex(byte command, byte argc, byte *argv)
 }
 
 void FirmataEncoder::reset(){}
+
+
 void FirmataEncoder::setLeftMotorPower(byte powerA, byte powerB)
 {
     int16_t power = powerA + 128*powerB;
