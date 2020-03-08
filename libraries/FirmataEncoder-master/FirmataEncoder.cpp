@@ -16,8 +16,8 @@
 */
 
 #include <ConfigurableFirmata.h>
-#include <Zumo32U4Encoders.h>
-#include <Zumo32U4Motors.h>
+#include <Zumo32U4.h>
+
 #include <string.h>
 #include "FirmataEncoder.h"
 
@@ -27,10 +27,13 @@
 static byte autoReport = 0x02;
 static Zumo32U4Encoders u4Encoders;
 static Zumo32U4Motors u4Motors;
+static Zumo32U4LineSensors lineSensors;
+unsigned int lineSensorValues[NUM_SENSORS];
 
 /* Constructor */
 FirmataEncoder::FirmataEncoder()
 {
+    lineSensors.initFiveSensors();
 
 }
 
@@ -75,6 +78,9 @@ boolean FirmataEncoder::handleSysex(byte command, byte argc, byte *argv)
       resetPosition(encoderNum);
       return true;
     }
+    if (enableReports == LINE_SENSORS){
+        reportLineSensors();
+    }
 
 
     //Firmata.sendString("Encoder Error: Invalid command");
@@ -117,6 +123,38 @@ void FirmataEncoder::reportPosition(byte encoder)
 
     Firmata.write(END_SYSEX);
 
+}
+
+void FirmataEncoder::reportLineSensors() {
+    lineSensors.read(lineSensorValues);
+    short int sensor0 = lineSensorValues[0];
+    short int sensor1 = lineSensorValues[1];
+    short int sensor2 = lineSensorValues[2];
+    short int sensor3 = lineSensorValues[3];
+    short int sensor4 = lineSensorValues[4];
+    byte pkg1 = (byte)sensor0 & 0x7F;
+    byte pkg2 = (byte)sensor0 >> 7 & 0x7F;
+    byte pkg3 = (byte)sensor1 & 0x7F;
+    byte pkg4 = (byte)sensor1 >> 7 & 0x7F;
+    byte pkg5 = (byte)sensor2 & 0x7F;
+    byte pkg6 = (byte)sensor2 >> 7 & 0x7F;
+    byte pkg7 = (byte)sensor3 & 0x7F;
+    byte pkg8 = (byte)sensor3 >> 7 & 0x7F;
+    byte pkg9 = (byte)sensor4 & 0x7F;
+    byte pkg0 = (byte)sensor4 >> 7 & 0x7F;
+    Firmata.write(START_SYSEX);
+    Firmata.write(LINE_SENSORS);
+    Firmata.write(pkg1);
+    Firmata.write(pkg2);
+    Firmata.write(pkg3);
+    Firmata.write(pkg4);
+    Firmata.write(pkg5);
+    Firmata.write(pkg6);
+    Firmata.write(pkg7);
+    Firmata.write(pkg8);
+    Firmata.write(pkg9);
+    Firmata.write(pkg0);
+    Firmata.write(END_SYSEX);
 }
 // Report all attached encoders positions (one message for all encoders)
 

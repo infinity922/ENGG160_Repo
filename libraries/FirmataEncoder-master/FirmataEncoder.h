@@ -27,14 +27,20 @@
 // This optional setting causes Encoder to use more optimized code
 // safe if 'attachInterrupt' is never used in the same time
 //#define ENCODER_OPTIMIZE_INTERRUPTS // => not compiling
-#include <Zumo32U4Encoders.h>
-#include <Zumo32U4Motors.h>
+#include <Zumo32U4>
+
+#define NUM_SENSORS 5
 
 #define MAX_ENCODERS                5 // arbitrary value, may need to adjust
 #define LEFT_MOTOR_POWER            (0x00)
 #define RIGHT_MOTOR_POWER           (0x01)
 #define ENCODER_RESET_POSITION      (0x03)
 #define ENCODER_REPORT_POSITION     (0x04)
+#define LINE_SENSORS                (0x05)
+
+//IMU instruction bytes
+
+#define
 
 class FirmataEncoder:public FirmataFeature
 {
@@ -52,6 +58,7 @@ public:
   void setRightMotorPower(byte powerA, byte powerB);
   void reportPosition(byte encoderNum);
   void resetPosition(byte encoderNum);
+  void reportLineSensors();
 
 
 private:
