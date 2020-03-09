@@ -2,8 +2,8 @@ import time
 
 from .robot import Robot
 
-ENCODER_DATA = 0x61
 
+# PID controller constants
 KP = 3
 KD = 2
 KI = .1
@@ -63,6 +63,8 @@ class Drive:
         self.cright = 0
 
     def startEncoderDrive(self, leftCounts, rightCounts, averagePower = 0.5):
+        """This starts the encoderDrive running, it should only be run once, after, call driver.iterate() to do
+        the actual calculations"""
         self.targetLeft = leftCounts
         self.targetRight = rightCounts
         self.targetReached = False
@@ -72,8 +74,8 @@ class Drive:
         self.averagePower = averagePower
 
     def encoderDrive(self):
-        """ (UNFINISHED) This function will take a left and right distance in encoder counts and dynamically adjust motor
-        power so both targets are reached simultaneously"""
+        """This function will take a left and right distance in encoder counts and dynamically adjust motor
+        power so both targets are reached simultaneously and as smoothly as possible"""
 
         encs = self.r.get_encoders()
         error = encs[0]/self.targetLeft - encs[1]/self.targetRight
@@ -92,7 +94,8 @@ class Drive:
             self.stop()
 
     def iterate(self):
-
+        """This method should be called in the main loop, it makes sure that all the iterating parts of this class are
+        kept up to date"""
         if not self.targetReached:
             self.encoderDrive()
 
