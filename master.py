@@ -24,10 +24,10 @@ while running:
         running = False
     driver.iterate()
     if state is 0:
-        driver.tankDrive(-0.4, -0.4)
+        driver.tankDrive(-0.4, 0.4)
         pos = r.get_right_encoder()
         print(pos)
-        if pos >= 5000:
+        if pos >= 8000:
             state += 1
     elif state is 1:
         driver.stop()
@@ -40,7 +40,7 @@ while running:
         if time.time() >= (startTime + 20):
             state += 1
     elif state is 3:
-        driver.startEncoderDrive(2000, 5000, 0.3)
+        driver.startEncoderDrive(8000, 8000, 0.4)
         state += 1
     elif state is 4:
         if driver.targetReached:

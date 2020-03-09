@@ -4,9 +4,9 @@ from .robot import Robot
 
 ENCODER_DATA = 0x61
 
-KP = 0.005
-KD = 0.005
-KI = 0.005
+KP = 3
+KD = 2
+KI = .1
 
 
 class Drive:
@@ -82,9 +82,11 @@ class Drive:
         dterm = KD*(error - self.lastError)
         iterm = KI*self.totalError
         offset = pterm + dterm + iterm
+        print(offset)
+        print(error)
         self.tankDrive(self.averagePower - offset, self.averagePower + offset)
         print(encs)
-        if encs[0] >= self.targetLeft | encs[1] >= self.targetRight:
+        if (encs[0] >= self.targetLeft) | (encs[1] >= self.targetRight):
             print('target reached')
             self.targetReached = True
             self.stop()
