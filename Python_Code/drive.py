@@ -3,6 +3,12 @@ import time
 from .robot import Robot
 
 ENCODER_DATA = 0x61
+
+KP = 0.005
+KD = 0.005
+KI = 0.005
+
+
 class Drive:
     # This class handles all the driving operations for the robot
 
@@ -16,6 +22,14 @@ class Drive:
 
         # stop robot
         self.stop()
+
+        # initialize encoderDrive vars
+        self.targetLeft = None
+        self.targetRight = None
+        self.targetReached = True
+        self.lastError = None
+        self.totalError = None
+        self.averagePower = None
 
     def tankDriveA(self, left, right, aTime):
         """ (UNFINISHED) This function will smoothly accelerate the robot from the current power to a new power in a
@@ -48,12 +62,39 @@ class Drive:
         self.cleft = 0
         self.cright = 0
 
-    def encoderDrive(self, leftCounts, rightCounts, averagePower = 0.5):
+    def startEncoderDrive(self, leftCounts, rightCounts, averagePower = 0.5):
+        self.targetLeft = leftCounts
+        self.targetRight = rightCounts
+        self.targetReached = False
+        self.lastError = 0
+        self.totalError = 0
+        self.r.reset_encoders()
+        self.averagePower = averagePower
+
+    def encoderDrive(self):
         """ (UNFINISHED) This function will take a left and right distance in encoder counts and dynamically adjust motor
         power so both targets are reached simultaneously"""
 
-        lcounter = 0
-        rcounter = 0
+        encs = self.r.get_encoders()
+        error = encs[0]/self.targetLeft - encs[1]/self.targetRight
+        self.totalError = self.totalError + error
+        pterm = KP*error
+        dterm = KD*(error - self.lastError)
+        iterm = KI*self.totalError
+        offset = pterm + dterm + iterm
+        self.tankDrive(self.averagePower - offset, self.averagePower + offset)
+        print(encs)
+        if encs[0] >= self.targetLeft | encs[1] >= self.targetRight:
+            print('target reached')
+            self.targetReached = True
+            self.stop()
+
+    def iterate(self):
+
+        if not self.targetReached:
+            self.encoderDrive()
+
+
 
 
 
