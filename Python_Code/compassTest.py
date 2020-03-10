@@ -1,14 +1,13 @@
-#include <Wire.h>
-#include <Zumo32U4.h>
+import math
+import Wire.h
+import Zumo32U4.h
 
 #LSM303 compass
 #Zumo32U4LCD lcd
 
-import math
-
 calibration = 0
 conversion = 0.000080
-#void setup()
+
 Wire.begin()
 compass.init()
 compass.enableDefault()

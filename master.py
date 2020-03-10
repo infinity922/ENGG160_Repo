@@ -23,29 +23,29 @@ while running:
         print("timed out")
         running = False
     driver.iterate()
-    if state is 0:
+    if state == 0:
         driver.tankDrive(-0.4, 0.4)
         pos = r.get_right_encoder()
         print(pos)
         if pos >= 8000:
             state += 1
-    elif state is 1:
+    elif state == 1:
         driver.stop()
         r.reset_encoders()
         pos = r.get_encoders()
         print('After Reset: ')
         print(pos)
         state += 1
-    elif state is 2:
+    elif state == 2:
         if time.time() >= (startTime + 20):
             state += 1
-    elif state is 3:
+    elif state == 3:
         driver.startEncoderDrive(8000, 8000, 0.4)
         state += 1
-    elif state is 4:
+    elif state == 4:
         if driver.targetReached:
             state += 1
-    elif state is 5:
+    elif state == 5:
         running = False
 
 print('done')
