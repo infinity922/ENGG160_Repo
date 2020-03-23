@@ -8,12 +8,15 @@ ENCODER_RESET_POSITION = 0x03
 ENCODER_REPORT_POSTITON = 0x04
 LINE_SENSORS = 0x05
 ZUMO = 0x61
+
+
 class Robot:
 
     def __init__(self):
+
         """This method is automatically called when robot is created, there shouldn't be any need
          to run it after that"""
-        self.board = my_pyfirmata.Arduino('COM5')
+        self.board = my_pyfirmata.Arduino('COM4')
         # replace this address with the one from your Arduino IDE
         # For the pi: /dev/ttyACM0
 
@@ -48,26 +51,26 @@ class Robot:
     def get_right_encoder(self):
         """This class gets the number of ticks from the right encoder since the last encoder reset as an integer"""
         self.board.sp.write(bytearray([START_SYSEX, ZUMO, ENCODER_REPORT_POSTITON, 1, END_SYSEX]))
-        recived = False
-        while recived is False:
+        received = False
+        while received is False:
             if self.board.bytes_available():
                 self.board.iterate()
             enc_dat = self.board.get_new_encoder_positions()
             if enc_dat is not False:
-                recived = True
+                received = True
                 return enc_dat[1]
 
     def get_left_encoder(self):
         """This method gets the number of ticks from the left encoder since the last encoder reset as an integer"""
         self.board.sp.write(bytearray([START_SYSEX, ZUMO, ENCODER_REPORT_POSTITON, 0, END_SYSEX]))
 
-        recived = False
-        while recived is False:
+        received = False
+        while received is False:
             if self.board.bytes_available():
                 self.board.iterate()
             enc_dat = self.board.get_new_encoder_positions()
             if enc_dat is not False:
-                recived = True
+                received = True
                 return enc_dat[0]
 
     def get_encoders(self):
@@ -99,3 +102,8 @@ class Robot:
             if lines is not False:
                 recived = True
                 return lines
+
+    def intake(self):
+        """
+        here we set
+        """

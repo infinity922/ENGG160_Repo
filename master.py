@@ -1,12 +1,18 @@
 # Look at the readme, and keep it up to date when you change the code
 from Python_Code.drive import Drive
 from Python_Code.robot import Robot
+from Python_Code.navigation import Navigation
 import time
+
+IN_FRONT, LEFT = 0
+BEHIND, MIDDLE = 1
+RIGHT = 2
 
 timeout = 60
 
 r = Robot()  # initialize the robot
 driver = Drive(r)  # initialize the driver
+nav = Navigation(r, driver)
 # driver.tankDrive(0.5, 0.5)
 running = True
 state = 0
@@ -23,6 +29,7 @@ while running:
         print("timed out")
         running = False
     driver.iterate()
+    nav.iterate()
     if state == 0:
         driver.tankDrive(-0.4, 0.4)
         pos = r.get_right_encoder()
