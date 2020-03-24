@@ -37,5 +37,14 @@ class Navigation:
         startEncoderDrive, encoderDrive and iterate in drive
         """
 
+    def driveToLine(self, speed = 0.5):
+        """
+        this function drives straight forward at speed (passed as an argument) until it sees a line, I'd like it to use
+        the same kind of algorithm as encoderDrive to keep the robot going as straight as possible, I can help with
+         this if needed.
+
+        As with squareUp, I'd like it to return True when it's finished
+        """
+
     def iterate(self):
         """This code will run every time the main program loops, see drive to see how this might be used"""
