@@ -21,11 +21,3 @@ while running:
     if time.time() - startTime > timeout:
         print("timed out")
         running = False
-    driver.iterate()
-    nav.iterate()
-    """
-    the stuff you want to test here, see master for additional idea of how to use this
-    """
-
-print('done')
-driver.stop()

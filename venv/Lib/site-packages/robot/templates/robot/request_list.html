@@ -1,0 +1,16 @@
+{% extends 'robot/base.html' %}
+{% load i18n admin_list %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+        <a href="/robot/">{% trans 'Request Management' %}</a> &rsaquo;
+        <a href="/robot/new/">{% trans 'New Request' %}</a>
+</div>
+{% endblock %}
+{% block content %}
+<div class="changelist">
+{% block search %}{% search_form cl %}{% endblock %}
+{% block filters %}{% filters cl %}{% endblock %}
+{% block result_list %}{% result_list cl %}{% endblock %}
+{% block pagination %}{% pagination cl %}{% endblock %}
+</div>
+{% endblock %}

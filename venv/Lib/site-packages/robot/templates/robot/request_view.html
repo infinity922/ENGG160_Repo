@@ -1,0 +1,74 @@
+{% extends 'robot/base.html' %}
+{% load i18n markup %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+        <a href="/robot/">{% trans 'Request Management' %}</a> &rsaquo;
+        <a href="/robot/new/">{% trans 'New Request' %}</a> &rsaquo;
+</div>
+{% endblock %}
+{% block content %}
+<div class="request_users">
+<h2><a href="txt/">{% trans 'Transcript' %}</a><br />
+<a href="/admin/robot/request/{{request.id}}/">{% trans 'Administration' %}</a><br />
+{% trans 'Interested Parties' %}</h2>
+<ul>
+{% for nosy in request.nosy.all %}
+	<li>{{nosy.first_name}} {{nosy.last_name}} &lt;{{nosy.email}}&gt;</li>
+{% endfor %}
+</div>
+<div class="request_header">
+<h1>{{request.title}}</h1>
+<blockquote>{{request.description|textile}}</blockquote>
+</div>
+<div class="request_metadata">
+<table>
+{% if request.timetrack %}
+<tr>
+	<th colspan="2">{% trans 'Total Time Taken' %}</th>
+	<td>{{request.timetrack}}</td>
+</tr>
+{% endif %}
+<tr>
+	<th>{% trans 'Creator' %}</th><td>{{request.creator}}</td>
+	<th>{% trans 'Created' %}</th><td>{{request.created|date:"Y:m:d H:i"}}</td>
+</tr>
+<tr>
+	<th>{% trans 'Opened' %}</th><td>{{request.opened|date:"Y:m:d H:i"}}</td>
+	<th>{% trans 'Updated' %}</th><td>{{request.updated|date:"Y:m:d H:i"}}</td>
+</tr>
+{% if request.closed %}
+<tr>
+	<td></td>
+        <td><form method="POST"><input type="submit" name="reopen" value="{% trans 'reopen' %}" /></td>
+	<th>{% trans 'Closed' %}</th><td>{{request.closed|date:"Y:m:d H:i"}}</td>
+</tr>
+{% else %}
+<tr>
+	<td colspan="3"></td>
+	<td><form method="POST"><input type="submit" name="close" value="{% trans 'close' %}" /></td>
+{% endif %}
+</table>
+</div>
+{% if not request.closed %}
+<div class="request_annotate">
+<form method="POST">
+<table>
+{{annotation}}
+<tr><td></td>
+    <td class="request_submit"><input type="submit" name="annotate" value="{% trans 'annotate' %}"/></td></tr>
+</table>
+</form>
+</div>
+{% endif %}
+<div class="request_history">
+<h2>{% trans 'History' %}</h2>
+<table>
+{% for action in request.action_set.all %}
+<tr class="row1"><td>{{action.created|date:"Y:m:d H:i"}}</td>
+    <th>{% if action.timetrack %}[{{action.timetrack}}]{% endif %} {{action.description}}</th></tr>
+<tr class="row2"><td>{{action.creator.first_name}} {{action.creator.last_name}} &lt;{{action.creator.email|safe}}&gt;</td>
+    <td>{{action.explanation|textile}}</td></tr>
+{% endfor %}
+</table>
+</div>
+{% endblock %}
