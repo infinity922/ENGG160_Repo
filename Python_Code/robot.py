@@ -105,5 +105,10 @@ class Robot:
 
     def intake(self):
         """
-        here we set
+        here we set the foam wheels spinning inwards
+        """
+
+    def outake(self):
+        """
+        here we set the foam wheels spinning outwards
         """

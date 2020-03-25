@@ -5,6 +5,9 @@ IN_FRONT, LEFT = 0, 0
 BEHIND, MIDDLE = 1, 1
 RIGHT = 2
 
+THRESHOLD = 250
+TOLERANCE = 10
+
 
 class Navigation:
 
@@ -20,6 +23,8 @@ class Navigation:
     def __init__(self, r: Robot, driver: Drive):
         self.r = r
         self.driver = driver
+        self.finishedSquare = True
+        self.foundBlack = False
 
     def followLine(self, speed, sensor):
         """
@@ -36,6 +41,50 @@ class Navigation:
         I'd like this to return True when it is finished, for an idea on how you could do this, see the
         startEncoderDrive, encoderDrive and iterate in drive
         """
+
+        lp = 0
+        rp = 0
+        if self.finishedSquare:
+            self.foundBlack = False
+            self.finishedSquare = False
+
+        lines = self.r.get_lines()
+        if direction == IN_FRONT:
+            if self.foundBlack:
+                if lines[0] < THRESHOLD:
+                    lp = lp - 0.2
+                else:
+                    lp = lp + 0.2
+                if lines[1] < THRESHOLD:
+                    lp = lp - 0.1
+                    rp = rp - 0.1
+                else:
+                    lp = lp + 0.1
+                    rp = rp + 0.1
+                if lines[2] < THRESHOLD:
+                    rp = rp - 0.2
+                else:
+                    rp = rp + 0.2
+                self.driver.tankDrive(lp,rp)
+
+            elif not self.foundBlack:
+                self.driver.tankDrive(.3,.3)
+                if lines[1] < THRESHOLD | lines[0] < THRESHOLD | lines[2] < THRESHOLD:
+                    self.foundBlack = True
+            if lines[0] < THRESHOLD + TOLERANCE & lines[0] > THRESHOLD - TOLERANCE & lines[1] < THRESHOLD + TOLERANCE & lines[1] > THRESHOLD - TOLERANCE & lines[2] < THRESHOLD + TOLERANCE & lines[2] > THRESHOLD - TOLERANCE:
+                self.finishedSquare = True
+                self.driver.stop()
+                return True
+            else:
+                return False
+        elif direction == BEHIND:
+
+
+
+
+        elif direction == BEHIND:
+            pass
+
 
     def driveToLine(self, speed = 0.5):
         """

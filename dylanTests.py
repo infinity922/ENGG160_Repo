@@ -55,7 +55,7 @@ class Navigation:
         if lines == [1, 0, 0]:
             while lines[2] == 0:
                 drive.tankDrive(0.1, 0.1)
-            while lines /= [1, 1, 1]:
+            while lines != [1, 1, 1]:
                 drive.tankDrive(-0.1, 0.1)
         if lines == [0, 0, 1]:
             while lines[2] == 0:
