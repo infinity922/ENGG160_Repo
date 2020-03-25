@@ -28,17 +28,17 @@ class Navigation:
         speed is the average speed to drive while following the line. sensor will either be the constant LEFT, MIDDLE
         or RIGHT telling which line sensor to use.
         """
-        robot.get_lines()
+        self.r.get_lines()
         while lines == [0, 1, 0]:
-            drive.tankDrive(speed, speed)
+            self.driver.tankDrive(speed, speed)
         if lines == [1, 0, 0]:
-            robot.get_lines()
-            while lines /= [0, 1, 0]:
-                drive.tankDrive(-0.1, 0.1)
+            self.r.get_lines()
+            while lines != [0, 1, 0]:
+                self.driver.tankDrive(-0.1, 0.1)
         if lines == [0, 0, 1]:
-            robot.get_lines()
-            while lines /=[0, 1, 0]:
-                drive.tankDrive(0.1, -0.1)
+            self.r.get_lines()
+            while lines !=[0, 1, 0]:
+                self.driver.tankDrive(0.1, -0.1)
 
 
 
@@ -51,17 +51,17 @@ class Navigation:
         startEncoderDrive, encoderDrive and iterate in drive
         """
         self.driveToLine(0.5)
-        robot.get_lines()
+        self.r.get_lines()
         if lines == [1, 0, 0]:
             while lines[2] == 0:
-                drive.tankDrive(0.1, 0.1)
-            while lines /= [1, 1, 1]:
-                drive.tankDrive(-0.1, 0.1)
+                self.driver.tankDrive(0.1, 0.1)
+            while lines != [1, 1, 1]:
+                self.driver.tankDrive(-0.1, 0.1)
         if lines == [0, 0, 1]:
             while lines[2] == 0:
-                drive.tankDrive(0.1, 0.1)
-            while lines /= [1, 1, 1]:
-                drive.tankDrive(0.1, -0.1)
+                self.driver.tankDrive(0.1, 0.1)
+            while lines != [1, 1, 1]:
+                self.driver.tankDrive(0.1, -0.1)
         if lines = [1, 1, 1]:
             return True
 
@@ -74,14 +74,14 @@ class Navigation:
         As with squareUp, I'd like it to return True when it's finished
         speed = 0.5?
         """
-        robot.get_lines()
+        self.r.get_lines()
         while lines == [0, 0, 0]:
-            drive.tankDrive(speed, speed)
-        if line[2] = 1:
+            self.driver.tankDrive(speed, speed)
+        if lines[2] = 1:
             return True
 
     def iterate(self):
         """This code will run every time the main program loops, see drive to see how this might be used"""
-        robot.get_lines()
+        self.r.get_lines()
         if lines == [0, 0, 0]:
             self.driveToLine(0.5)
