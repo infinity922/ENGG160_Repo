@@ -4,8 +4,8 @@ from Python_Code.robot import Robot
 from Python_Code.navigation import Navigation
 import time
 
-IN_FRONT, LEFT, CLOCKWISE = 0
-BEHIND, MIDDLE, COUNTERCLOCKWISE = 1
+IN_FRONT, LEFT, CLOCKWISE = 0, 0, 0
+BEHIND, MIDDLE, COUNTERCLOCKWISE = 1, 1, 1
 RIGHT = 2
 
 # state codes

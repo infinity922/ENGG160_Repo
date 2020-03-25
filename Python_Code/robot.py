@@ -16,7 +16,7 @@ class Robot:
 
         """This method is automatically called when robot is created, there shouldn't be any need
          to run it after that"""
-        self.board = my_pyfirmata.Arduino('COM4')
+        self.board = my_pyfirmata.Arduino('COM5')
         # replace this address with the one from your Arduino IDE
         # For the pi: /dev/ttyACM0
 

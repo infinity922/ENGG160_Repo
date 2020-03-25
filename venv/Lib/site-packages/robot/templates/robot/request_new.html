@@ -1,0 +1,21 @@
+{% extends 'robot/base.html' %}
+{% load i18n %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+        <a href="/robot/">{% trans 'Request Management' %}</a>
+</div>
+{% endblock %}
+{% block content %}
+<div class="request_form">
+<h1>{% trans 'New Request' %}</h1>
+<form method="POST">
+<input type="hidden" id="id_new-creator_id" name="new-creator_id" value="{{user.id}}" />
+<table>
+{{form}}
+<tr class="request_submit"><td></td>
+    <td><input type="submit" name="create" value="{% trans 'create' %}" /></td>
+</tr>
+</table>
+</form>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+From: {{robot.first_name}} {{robot.last_name}} <{{robot.email}}>
+To: {{recipient.first_name}} {{recipeint.last_name}} <{{recipient.email}}>
+Subject: [req #{{action.request.id}}] {{action.request.title}}
+
+{% load i18n %}
+{% trans 'Request' %} #{{action.request.id}}:	{{action.request.title}}
+		{{request_uri}}
+{% trans 'Actor' %}:		{{action.creator.first_name}} {{action.creator.last_name}} <{{action.creator.email}}>
+{% trans 'Action' %}:		{{action.description}}
+{% trans 'Explanation' %}:
+
+{{action.explanation}}
+
+{% if action.timetrack %}{% trans 'Time' %}:	 {{action.timetrack}}{% endif %}
+{% trans 'Abstract' %}:
+
+{{action.request.description}}

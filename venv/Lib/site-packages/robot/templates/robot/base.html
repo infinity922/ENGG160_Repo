@@ -1,0 +1,40 @@
+{% load i18n %}
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="/media/css/base.css" />
+	<style type="text/css">
+		.request_form table { width: 400px; }
+		.request_form th,td { text-align: left; vertical-align: top; }
+		.request_submit td { text-align: right; }
+		.request_header blockquote { width: 500px; }
+		.request_metadata { float: left; }
+		.request_metadata table { width: 400px; }
+		.request_metadata th,td { text-align: left; vertical-align: top; }
+		.request_annotate { clear: left; }
+		.request_annotate table { width: 400px; }
+		.request_annotate th,td { text-align: left; vertical-align: top; }
+		.request_admin { float: right; }
+		.request_users { float: right; }
+		.request_history { clear: both; }
+		.request_history table { width: 600px; }
+		.request_history th,td { text-align: left; }
+		.request_history th,td { text-align: left; vertical-align: top; }
+	</style>
+</head>
+<body>
+<div id="header">
+	<div id="branding"><h1 id="site-name"><a href="/">{{SITE_NAME}}</a></h1></div>
+	<div id="user-tools">
+		{% trans 'welcome' %} {{user}}
+		{% now "Y:m:d H:i" %}
+	</div>
+</div>
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+	<a href="/robot/">{% trans 'Request Management' %}</a>
+</div>
+{% endblock %}
+{% block content %}
+{% endblock %}
+</body>
+</html>

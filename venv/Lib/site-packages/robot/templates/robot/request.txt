@@ -1,0 +1,39 @@
+{% load i18n %}
+
+================================================================
+{% trans 'Extract of Request' %} #{{request.id}}
+================================================================
+
+{% trans 'Title' %}:		{{request.title}}
+{% trans 'Permalink' %}: 	{{request_uri}}
+{% trans 'Creator' %}:	{{request.creator}}
+{% trans 'Created' %}:	{{request.created|date:"Y/m/d H:i"}}
+{% trans 'Opened' %}:		{{request.opened|date:"Y/m/d H:i"}}
+{% trans 'Updated' %}:	{{request.updated|date:"Y/m/d H:i"}}
+{% trans 'Extracted' %}: 	{{ now|date:"Y/m/d H:i" }}
+{% if request.timetrack %}{% trans 'Time Taken' %}: 	{{request.timetrack}}{% endif %}
+{% if request.closed %}{% trans 'Closed' %}:		{{request.closed|date:"Y/m/d H:i"}}{% endif %}
+________________________________________________________________
+{% trans 'Description' %}
+================================================================
+
+{{request.description}}
+________________________________________________________________
+{% trans 'Interested Parties' %}
+================================================================
+{% for nosy in request.nosy.all %}
+	* {{nosy.first_name}} {{nosy.last_name}} <{{nosy.email}}>
+{% endfor %}
+
+________________________________________________________________
+{% trans 'History' %}
+================================================================
+{% for action in request.action_set.all %}
+{% trans 'User' %}: {{action.creator.first_name}} {{action.creator.last_name}} <{{action.creator.email|safe}}>
+{% trans 'Date' %}: {{action.created|date:"Y/m/d H:i"}}
+{% if action.timetrack %}{% trans 'Time' %}: {{action.timetrack}}{% endif %}
+{% trans 'Subject' %}: {{action.description}}
+
+{{action.explanation}}
+________________________________________________________________
+{% endfor %}

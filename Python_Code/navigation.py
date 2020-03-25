@@ -1,8 +1,8 @@
 from .robot import Robot
 from .drive import Drive
 
-IN_FRONT, LEFT = 0
-BEHIND, MIDDLE = 1
+IN_FRONT, LEFT = 0, 0
+BEHIND, MIDDLE = 1, 1
 RIGHT = 2
 
 
@@ -45,6 +45,8 @@ class Navigation:
 
         As with squareUp, I'd like it to return True when it's finished
         """
+        while not robot.get_lines():
+            drive.tankDrive(0.5, 0.5)
 
     def iterate(self):
         """This code will run every time the main program loops, see drive to see how this might be used"""
