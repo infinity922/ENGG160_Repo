@@ -108,10 +108,6 @@ class Navigation:
 
 
 
-        elif direction == BEHIND:
-            pass
-
-
     def driveToLine(self, speed = 0.5):
         """
         this function drives straight forward at speed (passed as an argument) until it sees a line, I'd like it to use
