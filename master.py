@@ -1,4 +1,6 @@
 # Look at the readme, and keep it up to date when you change the code
+import math
+
 from Python_Code.drive import Drive
 from Python_Code.robot import Robot
 from Python_Code.navigation import Navigation
@@ -17,6 +19,11 @@ NEXT_ACTION = 4
 
 RIGHT_TURN = 150
 TO_END = 800
+PASSES_PER_LOAD = 3
+PASSES_PER_QUADRANT = 4
+
+passes = 0
+loaded = False
 
 timeout = 60
 
@@ -66,10 +73,11 @@ pass_state = 0
 
 def makePass(direction):
     global pass_state
+    global passes
     r.intake()
     if direction == RIGHT:
         turn_dir = CLOCKWISE
-    elif direction == LEFT:
+    else:
         turn_dir = COUNTERCLOCKWISE
     if pass_state == 0:
         driver.startEncoderDrive(TO_END, TO_END, 0.7)
@@ -96,7 +104,7 @@ def makePass(direction):
             pass_state = 6
         return MAKE_PASS
     elif pass_state == 6:
-        driver.startEncoderTurn(RIGHT_TURN, turn_dir)
+        driver.startEncoderTurn(RIGHT_TURN, direction)
         pass_state = 7
         return MAKE_PASS
     elif pass_state == 7:
@@ -105,25 +113,79 @@ def makePass(direction):
         return MAKE_PASS
     elif pass_state == 8:
         if nav.driveToLine():
+            passes += 1
             return NEXT_ACTION
         else: 
             return MAKE_PASS
-
 
 
 unload_state = 0
 
 
 def unload():
-    pass
+    ls = UNLOAD
+
+    return ls
 
 
 def stop():
     pass
 
 
+action_state = 0
+
+
 def nextAction():
-    pass
+    global action_state
+    global passes
+    global loaded
+    ls = NEXT_ACTION
+    quadrant = math.floor(passes/PASSES_PER_QUADRANT) % 4
+    unload_needed = passes % PASSES_PER_LOAD == 0
+    new_quadrant = passes % PASSES_PER_QUADRANT == 0
+    if quadrant == 0 | quadrant == 2:
+        loc_pass_direction = RIGHT
+    else:
+        loc_pass_direction = LEFT
+
+    if unload_needed:
+        ls = UNLOAD
+    elif new_quadrant:
+        if quadrant == 0:
+            if action_state == 0:
+                driver.startEncoderDrive(30, 30, -0.5)
+                action_state = 8
+            elif action_state == 8:
+                if driver.targetReached:
+                    action_state = 9
+            elif action_state == 9:
+                driver.startEncoderTurn(RIGHT_TURN, CLOCKWISE)
+                action_state = 1
+            elif action_state == 1:
+                if driver.targetReached:
+                    action_state = 2
+            elif action_state == 2:
+                if nav.squareUp(IN_FRONT):
+                    action_state = 3
+            elif action_state == 3:
+                driver.startEncoderDrive(30, 30, -0.5)
+                action_state = 4
+            elif action_state == 4:
+                if driver.targetReached:
+                    action_state = 5
+            elif action_state == 5:
+                driver.startEncoderTurn(RIGHT_TURN, COUNTERCLOCKWISE)
+                action_state = 6
+            elif action_state == 6:
+                if driver.targetReached:
+                    action_state = 7
+            elif action_state == 7:
+                if nav.squareUp(IN_FRONT):
+                    action_state = 10
+            elif action_state == 10:
+                driver.startEncoderTurn(RIGHT_TURN, COUNTERCLOCKWISE)
+
+    return [ls, loc_pass_direction]
 
 
 while running:
@@ -140,7 +202,7 @@ while running:
             state = MAKE_PASS
             pass_direction = RIGHT
     elif state == MAKE_PASS:
-        state = makePass(RIGHT)
+        state = makePass(pass_direction)
         if state != MAKE_PASS:
             pass_state = 0
     elif state == UNLOAD:
@@ -151,7 +213,7 @@ while running:
         stop()
         running = False
     elif state == NEXT_ACTION:
-        state = nextAction()
+        [state, pass_direction] = nextAction()
 
 
 print('done')
