@@ -29,7 +29,7 @@ while running:
     driver.iterate()
     nav.iterate()
 
-    print(r.get_encoders())
+    print(r.get_lines())
 
 driver.stop()
 print('done')
