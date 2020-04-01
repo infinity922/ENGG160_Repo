@@ -26,11 +26,12 @@ class Navigation:
         self.finishedSquare = True
         self.foundBlack = False
 
-    def followLine(self, speed, sensor):
+    def followLine(self, speed, sensor, side):
         """
         This method should follow a dark line
         speed is the average speed to drive while following the line. sensor will either be the constant LEFT, MIDDLE
-        or RIGHT telling which line sensor to use.
+        or RIGHT telling which line sensor to use. side will either be the constant RIGHT or LEFT and will tell which
+        side of the line the sensor will be on.
         """
 
     def squareUp(self, direction):

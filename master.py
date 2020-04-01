@@ -17,8 +17,9 @@ UNLOAD = 2
 STOP = 3
 NEXT_ACTION = 4
 
-RIGHT_TURN = 150
-TO_END = 800
+RIGHT_TURN = 450
+TO_END = 5000
+LIGHT_THRESHOLD = 125
 PASSES_PER_LOAD = 3
 PASSES_PER_QUADRANT = 4
 
@@ -46,7 +47,7 @@ start_state = 0
 def start():
     global start_state
     if start_state == 0:
-        driver.startEncoderDrive(30, 30)
+        driver.startEncoderDrive(300, 300)
         start_state = 1
         return False
     elif start_state == 2:
@@ -96,7 +97,7 @@ def makePass(direction):
             pass_state = 4
         return MAKE_PASS
     elif pass_state == 4:
-        driver.startEncoderDrive(50, 50)
+        driver.startEncoderDrive(300, 300)
         pass_state = 5
         return MAKE_PASS
     elif pass_state == 5:
@@ -153,7 +154,7 @@ def nextAction():
     elif new_quadrant:
         if quadrant == 0:
             if action_state == 0:
-                driver.startEncoderDrive(30, 30, -0.5)
+                driver.startEncoderDrive(300, 300, -0.5)
                 action_state = 8
             elif action_state == 8:
                 if driver.targetReached:
@@ -168,7 +169,7 @@ def nextAction():
                 if nav.squareUp(IN_FRONT):
                     action_state = 3
             elif action_state == 3:
-                driver.startEncoderDrive(30, 30, -0.5)
+                driver.startEncoderDrive(300, 300, -0.5)
                 action_state = 4
             elif action_state == 4:
                 if driver.targetReached:
@@ -184,6 +185,16 @@ def nextAction():
                     action_state = 10
             elif action_state == 10:
                 driver.startEncoderTurn(RIGHT_TURN, COUNTERCLOCKWISE)
+        elif quadrant == 1:
+            if action_state == 0:
+                driver.startEncoderTurn(RIGHT_TURN, COUNTERCLOCKWISE)
+                action_state = 1
+            elif action_state == 1:
+                if driver.targetReached:
+                    action_state = 2
+            elif action_state == 2:
+                if r.get_encoders()[0] > LIGHT_THRESHOLD:
+                    nav.followLine(0.5, RIGHT)
 
     return [ls, loc_pass_direction]
 
