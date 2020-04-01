@@ -26,7 +26,7 @@ while running:
     nav.iterate()
 
     if state == 0:
-        driver.startEncoderDrive(3000, 3000)
+        driver.startEncoderDrive(3000, 3000, -0.5)
         state = 1
     elif state == 1:
         if driver.targetReached:
