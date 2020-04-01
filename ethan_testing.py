@@ -29,7 +29,14 @@ while running:
     driver.iterate()
     nav.iterate()
 
-    print(r.get_lines())
+    if state == 0:
+        driver.startEncoderDrive(4000,4000)
+        state = 1
+    elif state == 1:
+        if driver.targetReached:
+            state = 2
+    elif state == 2:
+        running = False
 
 driver.stop()
 print('done')
