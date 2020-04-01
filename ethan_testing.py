@@ -3,6 +3,10 @@ from Python_Code.robot import Robot
 from Python_Code.navigation import Navigation
 import time
 
+IN_FRONT, LEFT, CLOCKWISE = 0, 0, 0
+BEHIND, MIDDLE, COUNTERCLOCKWISE = 1, 1, 1
+RIGHT = 2
+
 r = Robot()  # initialize the robot
 driver = Drive(r)  # initialize the driver
 nav = Navigation(r, driver)  # initialize the nav
@@ -26,7 +30,7 @@ while running:
     nav.iterate()
 
     if state == 0:
-        driver.startEncoderDrive(3000, 3000, -0.5)
+        driver.startEncoderTurn(500, CLOCKWISE)
         state = 1
     elif state == 1:
         if driver.targetReached:
