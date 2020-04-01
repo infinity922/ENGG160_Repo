@@ -115,7 +115,7 @@ class Drive:
 
     def encoderTurn(self):
         encs = self.r.get_encoders()
-        error = encs[0] / self.targetLeft - encs[1] / self.targetRight
+        error = encs[0] / self.targetAmount - encs[1] / self.targetAmount
         self.totalError = self.totalError + error
         pterm = KP * error
         dterm = KD * (error - self.lastError)
