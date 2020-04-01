@@ -92,7 +92,10 @@ class Drive:
         dterm = KD*(error - self.lastError)
         iterm = KI*self.totalError
         offset = pterm + dterm + iterm
-        self.tankDrive(self.averagePower - offset, self.averagePower + offset)
+        if self.averagePower >= 0:
+            self.tankDrive(self.averagePower - offset, self.averagePower + offset)
+        else:
+            self.tankDrive(self.averagePower + offset, self.averagePower - offset)
         if (encs[0] >= self.targetLeft) | (encs[1] >= self.targetRight):
             print('target reached')
             self.targetReached = True
