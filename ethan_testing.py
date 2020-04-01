@@ -30,7 +30,7 @@ while running:
     nav.iterate()
 
     if state == 0:
-        driver.startEncoderTurn(500, CLOCKWISE)
+        driver.startEncoderTurn(500, COUNTERCLOCKWISE)
         state = 1
     elif state == 1:
         if driver.targetReached:
