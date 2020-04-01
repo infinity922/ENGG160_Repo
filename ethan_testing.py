@@ -13,7 +13,7 @@ nav = Navigation(r, driver)  # initialize the nav
 
 startTime = time.time()
 
-timeout = 10
+timeout = 45
 
 running = True
 state = 0

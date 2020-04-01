@@ -111,7 +111,7 @@ class Drive:
         self.r.reset_encoders()
         self.averagePower = averagePower
         self.direction = direction
-        self.turning = False
+        self.turning = True
 
     def encoderTurn(self):
         encs = self.r.get_encoders()
