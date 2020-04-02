@@ -96,9 +96,9 @@ class Navigation:
 
             elif not self.foundBlack:
                 self.driver.tankDrive(.3,.3)
-                if lines[1] < THRESHOLD | lines[0] < THRESHOLD | lines[2] < THRESHOLD:
+                if (lines[1] < THRESHOLD) | (lines[0] < THRESHOLD) | (lines[2] < THRESHOLD):
                     self.foundBlack = True
-            if lines[0] < THRESHOLD + TOLERANCE & lines[0] > THRESHOLD - TOLERANCE & lines[1] < THRESHOLD + TOLERANCE & lines[1] > THRESHOLD - TOLERANCE & lines[2] < THRESHOLD + TOLERANCE & lines[2] > THRESHOLD - TOLERANCE:
+            if (lines[0] < (THRESHOLD + TOLERANCE)) & (lines[0] > (THRESHOLD - TOLERANCE)) & (lines[1] < (THRESHOLD + TOLERANCE)) & (lines[1] > (THRESHOLD - TOLERANCE)) & (lines[2] < (THRESHOLD + TOLERANCE)) & (lines[2] > (THRESHOLD - TOLERANCE)):
                 self.finishedSquare = True
                 self.driver.stop()
                 return True
@@ -107,9 +107,9 @@ class Navigation:
         elif direction == BEHIND:
             if self.foundBlack:
                 if lines[0] < THRESHOLD:
-                    lp = lp - 0.2
+                    lp = lp - 0.3
                 else:
-                    lp = lp + 0.2
+                    lp = lp + 0.3
                 if lines[1] < THRESHOLD:
                     lp = lp - 0.1
                     rp = rp - 0.1
@@ -117,16 +117,16 @@ class Navigation:
                     lp = lp + 0.1
                     rp = rp + 0.1
                 if lines[2] < THRESHOLD:
-                    rp = rp - 0.2
+                    rp = rp - 0.3
                 else:
-                    rp = rp + 0.2
+                    rp = rp + 0.3
                 self.driver.tankDrive(-lp, -rp)
 
             elif not self.foundBlack:
                 self.driver.tankDrive(-0.3, -0.3)
-                if lines[1] < THRESHOLD | lines[0] < THRESHOLD | lines[2] < THRESHOLD:
+                if (lines[1] < THRESHOLD) | (lines[0] < THRESHOLD) | (lines[2] < THRESHOLD):
                     self.foundBlack = True
-            if lines[0] < THRESHOLD + TOLERANCE & lines[0] > THRESHOLD - TOLERANCE & lines[1] < THRESHOLD + TOLERANCE & lines[1] > THRESHOLD - TOLERANCE & lines[2] < THRESHOLD + TOLERANCE & lines[2] > THRESHOLD - TOLERANCE:
+            if (lines[0] < (THRESHOLD + TOLERANCE)) & (lines[0] > (THRESHOLD - TOLERANCE)) & (lines[1] < (THRESHOLD + TOLERANCE)) & (lines[1] > (THRESHOLD - TOLERANCE)) & (lines[2] < (THRESHOLD + TOLERANCE)) & (lines[2] > (THRESHOLD - TOLERANCE)):
                 self.finishedSquare = True
                 self.driver.stop()
                 return True

@@ -16,8 +16,9 @@ MAKE_PASS = 1
 UNLOAD = 2
 STOP = 3
 NEXT_ACTION = 4
+TEST = 5
 
-RIGHT_TURN = 700
+RIGHT_TURN = 650
 TO_END = 5000
 LIGHT_THRESHOLD = 50
 PASSES_PER_LOAD = 127
@@ -33,7 +34,7 @@ driver = Drive(r)  # initialize the driver
 nav = Navigation(r, driver)  # initialize the nav
 # driver.tankDrive(0.5, 0.5)
 running = True
-state = START
+state = TEST
 pos = 0
 pass_direction = RIGHT
 
@@ -411,6 +412,9 @@ while running:
         [state, pass_direction] = nextAction()
         if state != NEXT_ACTION:
             action_state = 0
+    elif state == TEST:
+        lines = r.get_lines()
+        print(lines)
 
 
 print('done')
