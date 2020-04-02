@@ -8,6 +8,9 @@ KP = 3
 KD = 2
 KI = .1
 
+CLOCKWISE = 0
+COUNTERCLOCKWISE = 1
+
 
 class Drive:
     # This class handles all the driving operations for the robot
@@ -30,6 +33,10 @@ class Drive:
         self.lastError = None
         self.totalError = None
         self.averagePower = None
+        self.targetAmount = None
+        self.direction = None
+        self.driving = False
+        self.turning = False
 
     def tankDriveA(self, left, right, aTime):
         """ (UNFINISHED) This function will smoothly accelerate the robot from the current power to a new power in a
@@ -62,7 +69,7 @@ class Drive:
         self.cleft = 0
         self.cright = 0
 
-    def startEncoderDrive(self, leftCounts, rightCounts, averagePower = 0.5):
+    def startEncoderDrive(self, leftCounts, rightCounts, averagePower = 0.4):
         """This starts the encoderDrive running, it should only be run once, after, call driver.iterate() to do
         the actual calculations"""
         self.targetLeft = leftCounts
@@ -72,6 +79,7 @@ class Drive:
         self.totalError = 0
         self.r.reset_encoders()
         self.averagePower = averagePower
+        self.driving = True
 
     def encoderDrive(self):
         """This function will take a left and right distance in encoder counts and dynamically adjust motor
@@ -84,24 +92,52 @@ class Drive:
         dterm = KD*(error - self.lastError)
         iterm = KI*self.totalError
         offset = pterm + dterm + iterm
-        print(offset)
-        print(error)
-        self.tankDrive(self.averagePower - offset, self.averagePower + offset)
-        print(encs)
+        if self.averagePower >= 0:
+            self.tankDrive(self.averagePower - offset, self.averagePower + offset)
+        else:
+            self.tankDrive(self.averagePower + offset, self.averagePower - offset)
         if (encs[0] >= self.targetLeft) | (encs[1] >= self.targetRight):
             print('target reached')
             self.targetReached = True
+            self.driving = False
+            self.stop()
+        self.lastError = error
+
+    def startEncoderTurn(self, amount, direction, averagePower = 0.4):
+        self.targetAmount = amount
+        self.targetReached = False
+        self.lastError = 0
+        self.totalError = 0
+        self.r.reset_encoders()
+        self.averagePower = averagePower
+        self.direction = direction
+        self.turning = True
+
+    def encoderTurn(self):
+        encs = self.r.get_encoders()
+        error = encs[0] / self.targetAmount - encs[1] / self.targetAmount
+        self.totalError = self.totalError + error
+        pterm = KP * error
+        dterm = KD * (error - self.lastError)
+        iterm = KI * self.totalError
+        offset = pterm + dterm + iterm
+        if self.direction == CLOCKWISE:
+            self.tankDrive(self.averagePower - offset, -(self.averagePower + offset))
+        elif self.direction == COUNTERCLOCKWISE:
+            self.tankDrive(-(self.averagePower - offset), self.averagePower + offset)
+        self.lastError = error
+        if (encs[0] >= self.targetAmount) | (encs[1] >= self.targetAmount):
+            print('target reached')
+            self.targetReached = True
+            self.turning = False
             self.stop()
 
     def iterate(self):
         """This method should be called in the main loop, it makes sure that all the iterating parts of this class are
         kept up to date"""
         if not self.targetReached:
-            self.encoderDrive()
-
-
-
-
-
-
+            if self.driving:
+                self.encoderDrive()
+            if self.turning:
+                self.encoderTurn()
 
