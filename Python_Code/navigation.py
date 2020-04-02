@@ -8,6 +8,10 @@ RIGHT = 2
 THRESHOLD = 50
 TOLERANCE = 5
 
+#  PID Controller Constants:            THESE WILL HAVE TO BE ADJUSTED
+KP = 1
+KI = 1
+KD = 1
 
 class Navigation:
 
@@ -26,6 +30,9 @@ class Navigation:
         self.finishedSquare = True
         self.foundBlack = False
 
+        self.errorLast = 0
+        self.integral = 0
+
     def followLine(self, speed, sensor, side):
         """
         This method should follow a dark line
@@ -33,6 +40,25 @@ class Navigation:
         or RIGHT telling which line sensor to use. side will either be the constant RIGHT or LEFT and will tell which
         side of the line the sensor will be on.
         """
+        target = 1  # this will have to be changed to the light value that the robot picks up
+
+        lines = self.r.get_lines()
+        error = target - lines[sensor]
+        self.integral = self.integral + error
+        pterm = KP*error
+        iterm = KI*integral
+        derivative = error - errorLast
+        dterm = KD*derivative
+        offset = pterm + iterm + dterm
+        if side = RIGHT:
+            offset = -offset
+        self.tankDrive(speed - offset, speed + offset)
+        self.errorLast = error
+
+
+
+
+
 
     def squareUp(self, direction):
         """
