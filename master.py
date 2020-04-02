@@ -44,7 +44,7 @@ while calibrating:
     r.calibrate_lines()
     driver.iterate()
     if calib_state == 0:
-        driver.startEncoderDrive(4000, 4000, 0.3)
+        driver.startEncoderDrive(1000, 1000, 0.3)
         calib_state = 2
     elif calib_state == 2:
         if driver.targetReached:
@@ -64,7 +64,7 @@ def start():
     global start_state
     if start_state == 0:
         driver.startEncoderDrive(300, 300)
-        start_state = 1
+        start_state = 2
         return False
     elif start_state == 2:
         if driver.targetReached:
