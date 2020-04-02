@@ -42,6 +42,7 @@ calib_state = 0
 
 while calibrating:
     r.calibrate_lines()
+    driver.iterate()
     if calib_state == 0:
         driver.startEncoderDrive(4000, 4000, 0.3)
         calib_state = 2
