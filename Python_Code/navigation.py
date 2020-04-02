@@ -141,8 +141,15 @@ class Navigation:
 
         As with squareUp, I'd like it to return True when it's finished
         """
-        while not robot.get_lines():
-            self.driver.tankDrive(0.5, 0.5)
+        if not self.foundBlack:
+            self.driver.tankDrive(.5, .5)
+            self.driver.encoderDrive()
+        if (lines[1] < THRESHOLD) | (lines[0] < THRESHOLD) | (lines[2] < THRESHOLD):
+            self.foundBlack = True
+            self.driver.stop()
+            return True
+        else:
+            return False
 
     def iterate(self):
         """This code will run every time the main program loops, see drive to see how this might be used"""
