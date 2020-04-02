@@ -70,7 +70,7 @@ class Navigation:
 
             elif not self.foundBlack:
                 self.driver.tankDrive(.3,.3)
-                if lines[1] < THRESHOLD | lines[0] < THRESHOLD | lines[2] < THRESHOLD:
+                if (lines[1] < THRESHOLD) | (lines[0] < THRESHOLD) | (lines[2] < THRESHOLD):
                     self.foundBlack = True
             if lines[0] < THRESHOLD + TOLERANCE & lines[0] > THRESHOLD - TOLERANCE & lines[1] < THRESHOLD + TOLERANCE & lines[1] > THRESHOLD - TOLERANCE & lines[2] < THRESHOLD + TOLERANCE & lines[2] > THRESHOLD - TOLERANCE:
                 self.finishedSquare = True
