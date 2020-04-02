@@ -46,11 +46,11 @@ class Navigation:
         error = target - lines[sensor]
         self.integral = self.integral + error
         pterm = KP*error
-        iterm = KI*integral
-        derivative = error - errorLast
+        iterm = KI*self.integral
+        derivative = error - self.errorLast
         dterm = KD*derivative
         offset = pterm + iterm + dterm
-        if side = RIGHT:
+        if side == RIGHT:
             offset = -offset
         self.tankDrive(speed - offset, speed + offset)
         self.errorLast = error
@@ -142,7 +142,7 @@ class Navigation:
         As with squareUp, I'd like it to return True when it's finished
         """
         if not self.foundBlack:
-            self.driver.tankDrive(.5, .5)
+            lines = self.r.get_lines()
             self.driver.encoderDrive()
         if (lines[1] < THRESHOLD) | (lines[0] < THRESHOLD) | (lines[2] < THRESHOLD):
             self.foundBlack = True
