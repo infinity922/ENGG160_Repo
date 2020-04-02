@@ -69,7 +69,7 @@ class Drive:
         self.cleft = 0
         self.cright = 0
 
-    def startEncoderDrive(self, leftCounts, rightCounts, averagePower = 0.5):
+    def startEncoderDrive(self, leftCounts, rightCounts, averagePower = 0.4):
         """This starts the encoderDrive running, it should only be run once, after, call driver.iterate() to do
         the actual calculations"""
         self.targetLeft = leftCounts
@@ -103,7 +103,7 @@ class Drive:
             self.stop()
         self.lastError = error
 
-    def startEncoderTurn(self, amount, direction, averagePower = 0.5):
+    def startEncoderTurn(self, amount, direction, averagePower = 0.4):
         self.targetAmount = amount
         self.targetReached = False
         self.lastError = 0

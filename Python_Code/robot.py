@@ -98,15 +98,15 @@ class Robot:
         for i in range(3):
             lines[i] = lines[i] - self.minimum[i]
             upper[i] = self.maximum[i] - self.minimum[i]
-            lines = lines[i]/upper[i]*100
+            lines[i] = lines[i]/upper[i]*100
         return lines
 
     def calibrate_lines(self):
         lines = self.get_raw_lines()
         for i in range(3):
-            if lines[i]<self.minimum[i]:
+            if lines[i] < self.minimum[i]:
                 self.minimum[i] = lines[i]
-            if lines[i]>self.minimum[i]:
+            if lines[i] > self.minimum[i]:
                 self.maximum[i] = lines[i]
 
     def get_raw_lines(self):
