@@ -19,7 +19,7 @@ NEXT_ACTION = 4
 
 RIGHT_TURN = 450
 TO_END = 5000
-LIGHT_THRESHOLD = 125
+LIGHT_THRESHOLD = 50
 PASSES_PER_LOAD = 127
 PASSES_PER_QUADRANT = 4
 
@@ -36,6 +36,21 @@ running = True
 state = START
 pos = 0
 pass_direction = RIGHT
+
+calibrating = True
+calib_state = 0
+
+while calibrating:
+    r.calibrate_lines()
+    if calib_state == 0:
+        driver.startEncoderDrive(4000, 4000, 0.3)
+        calib_state = 2
+    elif calib_state == 2:
+        if driver.targetReached:
+            calib_state = 3
+    elif calib_state == 3:
+        input('Press Enter to start')
+        calibrating = False
 
 
 startTime = time.time()

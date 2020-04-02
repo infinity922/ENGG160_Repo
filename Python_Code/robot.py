@@ -17,6 +17,8 @@ class Robot:
         """This method is automatically called when robot is created, there shouldn't be any need
          to run it after that"""
         self.board = my_pyfirmata.Arduino('/dev/ttyACM0')
+        self.minimum = [1000, 1000, 1000]
+        self.maximum = [0, 0, 0]
         # replace this address with the one from your Arduino IDE
         # For the pi: /dev/ttyACM0
 
@@ -91,6 +93,21 @@ class Robot:
         self.board.sp.write(bytearray([START_SYSEX,ZUMO,ENCODER_RESET_POSITION, 1, END_SYSEX]))
 
     def get_lines(self):
+        lines = self.get_raw_lines()
+        lines = lines - self.minimum
+        upper = self.maximum - self.minimum
+        lines = lines/upper*100
+        return lines
+
+    def calibrate_lines(self):
+        lines = self.get_raw_lines()
+        for i in range(3):
+            if lines[i]<self.minimum[i]:
+                self.minimum[i] = lines[i]
+            if lines[i]>self.minimum[i]:
+                self.maximum[i] = lines[i]
+
+    def get_raw_lines(self):
         """This method gets the values from the line sensors as a 1x3 array"""
         self.board.sp.write(bytearray([START_SYSEX,ZUMO,LINE_SENSORS,END_SYSEX]))
 
