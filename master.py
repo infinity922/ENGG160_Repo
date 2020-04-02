@@ -414,7 +414,7 @@ while running:
         if state != NEXT_ACTION:
             action_state = 0
     elif state == TEST:
-        print(r.maximum)
+        print(r.get_lines())
 
 
 
