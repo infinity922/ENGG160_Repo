@@ -414,7 +414,7 @@ while running:
         if state != NEXT_ACTION:
             action_state = 0
     elif state == TEST:
-        print(math.floor(r.get_lines()[1]), 'ahhha')
+        print(math.floor(r.get_lines()[0]), 'ahhha')
 
 
 
