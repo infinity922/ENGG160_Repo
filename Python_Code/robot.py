@@ -106,7 +106,7 @@ class Robot:
         for i in range(3):
             if lines[i] < self.minimum[i]:
                 self.minimum[i] = lines[i]
-            if lines[i] > self.minimum[i]:
+            if lines[i] > self.maximum[i]:
                 self.maximum[i] = lines[i]
 
     def get_raw_lines(self):
