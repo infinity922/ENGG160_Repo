@@ -20,7 +20,7 @@ NEXT_ACTION = 4
 RIGHT_TURN = 450
 TO_END = 5000
 LIGHT_THRESHOLD = 125
-PASSES_PER_LOAD = 3
+PASSES_PER_LOAD = 127
 PASSES_PER_QUADRANT = 4
 
 passes = 0
@@ -115,6 +115,7 @@ def makePass(direction):
     elif pass_state == 8:
         if nav.driveToLine():
             passes += 1
+            driver.stop()
             return NEXT_ACTION
         else: 
             return MAKE_PASS
@@ -144,7 +145,7 @@ def nextAction():
     quadrant = math.floor(passes/PASSES_PER_QUADRANT) % 4
     unload_needed = passes % PASSES_PER_LOAD == 0
     new_quadrant = passes % PASSES_PER_QUADRANT == 0
-    if quadrant == 0 | quadrant == 2:
+    if quadrant == 0 | quadrant == 1:
         loc_pass_direction = RIGHT
     else:
         loc_pass_direction = LEFT
@@ -184,7 +185,39 @@ def nextAction():
                 if nav.squareUp(IN_FRONT):
                     action_state = 10
             elif action_state == 10:
+                driver.startEncoderDrive(300, 300)
+                action_state = 11
+            elif action_state == 11:
+                if driver.targetReached:
+                    action_state = 12
+            elif action_state == 12:
                 driver.startEncoderTurn(RIGHT_TURN, COUNTERCLOCKWISE)
+                action_state = 13
+            elif action_state == 13:
+                if driver.targetReached:
+                    action_state = 14
+            elif action_state == 14:
+                r.reset_encoders()
+                nav.followLine(0.5, LEFT, LEFT)
+                action_state = 15
+            elif action_state == 15:
+                if r.get_encoders()[0] >= 5000:
+                    action_state = 16
+                else:
+                    nav.followLine(0.5, LEFT, LEFT)
+            elif action_state == 16:
+                driver.startEncoderTurn(RIGHT_TURN, CLOCKWISE)
+                action_state = 17
+            elif action_state == 17:
+                if driver.targetReached:
+                    action_state = 18
+            elif action_state == 18:
+                if nav.squareUp(BEHIND):
+                    action_state = 19
+            elif action_state == 19:
+                driver.stop()
+                action_state = 0
+                ls = MAKE_PASS
         elif quadrant == 1:
             if action_state == 0:
                 driver.startEncoderTurn(RIGHT_TURN, COUNTERCLOCKWISE)
@@ -194,7 +227,142 @@ def nextAction():
                     action_state = 2
             elif action_state == 2:
                 if r.get_encoders()[0] > LIGHT_THRESHOLD:
-                    nav.followLine(0.5, RIGHT)
+                    nav.followLine(0.5, RIGHT, RIGHT)
+                else:
+                    action_state = 3
+            elif action_state == 3:
+                driver.startEncoderDrive(300, 300)
+                action_state = 4
+            elif action_state == 4:
+                if driver.targetReached:
+                    action_state = 5
+            elif action_state == 5:
+                driver.startEncoderTurn(RIGHT_TURN, COUNTERCLOCKWISE)
+                action_state = 6
+            elif action_state == 6:
+                if driver.targetReached:
+                    action_state = 7
+            elif action_state == 7:
+                if nav.squareUp(BEHIND):
+                    ls = MAKE_PASS
+                    driver.stop()
+                    action_state = 0
+        elif quadrant == 2:
+            if action_state == 0:
+                if nav.squareUp(IN_FRONT):
+                    action_state = 1
+            elif action_state == 1:
+                driver.startEncoderTurn(RIGHT_TURN, CLOCKWISE)
+                action_state = 2
+            elif action_state == 2:
+                if driver.targetReached:
+                    action_state = 3
+            elif action_state == 3:
+                nav.followLine(0.5, LEFT, LEFT)
+                action_state = 4
+            elif action_state == 4:
+                if r.get_lines()[2] > LIGHT_THRESHOLD:
+                    nav.followLine(0.5, LEFT, LEFT)
+                else:
+                    action_state = 6
+            elif action_state == 6:
+                driver.startEncoderDrive(300, 300, -0.5)
+                action_state = 7
+            elif action_state == 7:
+                if driver.targetReached:
+                    action_state = 8
+            elif action_state == 8:
+                driver.startEncoderTurn(RIGHT_TURN, COUNTERCLOCKWISE)
+                action_state = 9
+            elif action_state == 9:
+                if driver.targetReached:
+                    action_state = 13
+            elif action_state == 12:
+                driver.startEncoderDrive(300, 300, -0.5)
+                action_state = 13
+            elif action_state == 13:
+                if driver.targetReached:
+                    action_state = 10
+            elif action_state == 10:
+                if nav.squareUp(IN_FRONT):
+                    action_state = 11
+            elif action_state == 11:
+                driver.stop()
+                action_state = 0
+                ls = MAKE_PASS
+
+        elif quadrant == 3:
+            if action_state == 0:
+                driver.startEncoderTurn(RIGHT_TURN, COUNTERCLOCKWISE)
+                action_state = 1
+            elif action_state == 1:
+                if driver.targetReached:
+                    action_state = 2
+            elif action_state == 2:
+                if r.get_lines()[0] > LIGHT_THRESHOLD:
+                    nav.followLine(0.5, RIGHT, RIGHT)
+                else:
+                    action_state = 3
+                    driver.stop()
+            elif action_state == 3:
+                driver.startEncoderDrive(100, 100)
+                action_state = 4
+            elif action_state == 4:
+                if driver.targetReached:
+                    action_state = 5
+            elif action_state == 5:
+                r.reset_encoders()
+                nav.followLine(0.5, RIGHT, RIGHT)
+                action_state = 6
+            elif action_state == 6:
+                if r.get_encoders()[0] >= 5000:
+                    action_state = 7
+                    driver.stop()
+                else:
+                    nav.followLine(0.5, RIGHT, RIGHT)
+            elif action_state == 7:
+                driver.startEncoderTurn(RIGHT_TURN, COUNTERCLOCKWISE)
+                action_state = 8
+            elif action_state == 8:
+                if nav.squareUp(BEHIND):
+                    action_state = 9
+            elif action_state == 9:
+                driver.stop()
+                action_state = 0
+                ls = MAKE_PASS
+    else:
+        if loc_pass_direction == LEFT:
+            turn_dir = COUNTERCLOCKWISE
+            sensor = RIGHT
+        else:
+            turn_dir = COUNTERCLOCKWISE
+            sensor = LEFT
+        if action_state == 0:
+            if nav.squareUp(IN_FRONT):
+                action_state = 1
+        elif action_state == 1:
+            driver.startEncoderTurn(RIGHT_TURN, turn_dir)
+            action_state = 2
+        elif action_state == 2:
+            if driver.targetReached:
+                action_state = 3
+        elif action_state == 3:
+            r.reset_encoders()
+            action_state = 4
+        elif action_state == 4:
+            if r.get_encoders()[0] < 300:
+                nav.followLine(0.5, sensor, sensor)
+            else:
+                driver.stop()
+                action_state = 5
+        elif action_state == 5:
+            driver.startEncoderTurn(RIGHT_TURN, turn_dir)
+            action_state = 6
+        elif action_state == 6:
+            if nav.squareUp(BEHIND):
+                action_state = 0
+                driver.stop()
+                ls = MAKE_PASS
 
     return [ls, loc_pass_direction]
 
@@ -225,6 +393,8 @@ while running:
         running = False
     elif state == NEXT_ACTION:
         [state, pass_direction] = nextAction()
+        if state != NEXT_ACTION:
+            action_state = 0
 
 
 print('done')
