@@ -94,7 +94,7 @@ class Robot:
 
     def get_lines(self):
         lines = self.get_raw_lines()
-        upper = []
+        upper = [0, 0, 0]
         for i in range(3):
             lines[i] = lines[i] - self.minimum[i]
             upper[i] = self.maximum[i] - self.minimum[i]
