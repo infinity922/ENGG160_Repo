@@ -34,7 +34,7 @@ driver = Drive(r)  # initialize the driver
 nav = Navigation(r, driver)  # initialize the nav
 # driver.tankDrive(0.5, 0.5)
 running = True
-state = START
+state = TEST
 pos = 0
 pass_direction = RIGHT
 
@@ -418,7 +418,7 @@ while running:
         lin = r.get_lines()
         print(math.floor(lin[0]), math.floor(lin[2]), 'ahhha')
         if nav.squareUp(IN_FRONT):
-            state = STOP
+            print("I'm Square")
 
 
 

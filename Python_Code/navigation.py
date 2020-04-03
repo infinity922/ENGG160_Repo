@@ -6,7 +6,7 @@ BEHIND, MIDDLE = 1, 1
 RIGHT = 2
 
 THRESHOLD = 21
-TOLERANCE = 6
+TOLERANCE = 4
 
 #  PID Controller Constants:            THESE WILL HAVE TO BE ADJUSTED
 KP = 0.001
