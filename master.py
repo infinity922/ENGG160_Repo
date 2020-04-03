@@ -386,7 +386,7 @@ def nextAction():
 
 
 while running:
-    r.calibrate_lines()
+    # r.calibrate_lines()
     if r.board.bytes_available():
         while r.board.bytes_available():
             r.board.iterate()
