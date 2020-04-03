@@ -84,6 +84,7 @@ class Navigation:
                 left_error = lines[0] - TOLERANCE
                 der_term = self.last_left - left_error
                 self.last_left = left_error
+                pterm = 0.001
                 lp = 0.001*left_error + 0.003*der_term
 
                 right_error = lines[0] - TOLERANCE
