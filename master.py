@@ -417,7 +417,7 @@ while running:
     elif state == TEST:
         lin = r.get_lines()
         print(math.floor(lin[0]), math.floor(lin[2]), 'ahhha')
-        nav.followLine(0.4, RIGHT, RIGHT)
+
 
 
 

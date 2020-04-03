@@ -5,7 +5,7 @@ IN_FRONT, LEFT = 0, 0
 BEHIND, MIDDLE = 1, 1
 RIGHT = 2
 
-THRESHOLD = 50
+THRESHOLD = 30
 TOLERANCE = 8
 
 #  PID Controller Constants:            THESE WILL HAVE TO BE ADJUSTED
@@ -78,14 +78,14 @@ class Navigation:
         lines = self.r.get_lines()
         if direction == IN_FRONT:
             if self.foundBlack:
-                if lines[0] < THRESHOLD:
-                    lp = lp - 0.35
-                else:
-                    lp = lp + 0.35
-                if lines[2] < THRESHOLD:
-                    rp = rp - 0.35
-                else:
-                    rp = rp + 0.35
+                if lines[0] < THRESHOLD - TOLERANCE:
+                    lp = lp - 0.3
+                elif lines[0] > THRESHOLD + TOLERANCE:
+                    lp = lp + 0.3
+                if lines[2] < THRESHOLD - TOLERANCE:
+                    rp = rp - 0.3
+                elif lines[2]> THRESHOLD + TOLERANCE:
+                    rp = rp + 0.3
                 self.driver.tankDrive(lp,rp)
 
             elif not self.foundBlack:
