@@ -20,7 +20,7 @@ TEST = 5
 
 RIGHT_TURN = 650
 TO_END = 3000
-LIGHT_THRESHOLD = 50
+LIGHT_THRESHOLD = 100
 PASSES_PER_LOAD = 127
 PASSES_PER_QUADRANT = 4
 
@@ -41,7 +41,7 @@ pass_direction = RIGHT
 calibrating = True
 calib_state = 0
 
-while calibrating:
+"""while calibrating:
     r.calibrate_lines()
     driver.iterate()
     if calib_state == 0:
@@ -52,7 +52,7 @@ while calibrating:
             calib_state = 3
     elif calib_state == 3:
         input('Press Enter to start')
-        calibrating = False
+        calibrating = False"""
 
 
 startTime = time.time()

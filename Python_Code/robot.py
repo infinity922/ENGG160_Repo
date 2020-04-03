@@ -92,7 +92,7 @@ class Robot:
         """This method resets the encoders"""
         self.board.sp.write(bytearray([START_SYSEX,ZUMO,ENCODER_RESET_POSITION, 1, END_SYSEX]))
 
-    def get_lines(self):
+    """def get_lines(self):
         lines = self.get_raw_lines()
         upper = [0, 0, 0]
         for i in range(3):
@@ -107,9 +107,8 @@ class Robot:
             if lines[i] < self.minimum[i]:
                 self.minimum[i] = lines[i]
             if lines[i] > self.maximum[i]:
-                self.maximum[i] = lines[i]
-
-    def get_raw_lines(self):
+                self.maximum[i] = lines[i]"""
+    def get_lines(self):
         """This method gets the values from the line sensors as a 1x3 array"""
         self.board.sp.write(bytearray([START_SYSEX,ZUMO,LINE_SENSORS,END_SYSEX]))
 
