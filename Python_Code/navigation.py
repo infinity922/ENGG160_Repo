@@ -84,12 +84,12 @@ class Navigation:
                 left_error = lines[0] - TOLERANCE
                 der_term = self.last_left - left_error
                 self.last_left = left_error
-                lp = 0.005*left_error + 0.01*der_term
+                lp = 0.001*left_error + 0.003*der_term
 
                 right_error = lines[0] - TOLERANCE
                 der_term = self.last_right - right_error
                 self.last_right = right_error
-                rp = 0.005 * right_error + 0.01 * der_term
+                rp = 0.001 * right_error + 0.003 * der_term
 
                 """if lines[0] < THRESHOLD - TOLERANCE:
                     lp = lp - 0.3
