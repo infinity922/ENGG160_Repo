@@ -79,13 +79,13 @@ class Navigation:
         if direction == IN_FRONT:
             if self.foundBlack:
                 if lines[0] < THRESHOLD:
-                    lp = lp - 0.2
+                    lp = lp - 0.35
                 else:
-                    lp = lp + 0.2
+                    lp = lp + 0.35
                 if lines[2] < THRESHOLD:
-                    rp = rp - 0.2
+                    rp = rp - 0.35
                 else:
-                    rp = rp + 0.2
+                    rp = rp + 0.35
                 self.driver.tankDrive(lp,rp)
 
             elif not self.foundBlack:
