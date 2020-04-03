@@ -19,7 +19,7 @@ NEXT_ACTION = 4
 TEST = 5
 
 RIGHT_TURN = 650
-TO_END = 5000
+TO_END = 3000
 LIGHT_THRESHOLD = 20
 PASSES_PER_LOAD = 127
 PASSES_PER_QUADRANT = 4
@@ -34,7 +34,7 @@ driver = Drive(r)  # initialize the driver
 nav = Navigation(r, driver)  # initialize the nav
 # driver.tankDrive(0.5, 0.5)
 running = True
-state = TEST
+state = START
 pos = 0
 pass_direction = RIGHT
 
