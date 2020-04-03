@@ -143,7 +143,7 @@ class Navigation:
         """
         if not self.foundBlack:
             lines = self.r.get_lines()
-            self.driver.encoderDrive()
+            self.driver.tankDrive(0.4, 0.4)
         if (lines[1] < THRESHOLD) | (lines[0] < THRESHOLD) | (lines[2] < THRESHOLD):
             self.foundBlack = True
             self.driver.stop()
