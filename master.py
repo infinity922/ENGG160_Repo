@@ -415,10 +415,10 @@ while running:
         if state != NEXT_ACTION:
             action_state = 0
     elif state == TEST:
-        lin = r.get_raw_lines()
+        lin = r.get_lines()
         print(math.floor(lin[0]), math.floor(lin[2]), 'ahhha')
-        if nav.squareUp(IN_FRONT):
-            print('square')
+        """if nav.squareUp(IN_FRONT):
+            print('square')"""
 
 
 
