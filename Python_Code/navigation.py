@@ -52,7 +52,7 @@ class Navigation:
         offset = pterm + iterm + dterm
         if side == RIGHT:
             offset = -offset
-        self.tankDrive(speed - offset, speed + offset)
+        self.driver.tankDrive(speed - offset, speed + offset)
         self.errorLast = error
 
 
