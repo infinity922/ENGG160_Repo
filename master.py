@@ -122,6 +122,7 @@ def makePass(direction):
             pass_state = 6
         return MAKE_PASS
     elif pass_state == 6:
+        print('here')
         driver.startEncoderTurn(RIGHT_TURN, direction)
         pass_state = 7
         return MAKE_PASS
