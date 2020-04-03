@@ -20,7 +20,7 @@ TEST = 5
 
 RIGHT_TURN = 650
 TO_END = 3000
-LIGHT_THRESHOLD = 20
+LIGHT_THRESHOLD = 50
 PASSES_PER_LOAD = 127
 PASSES_PER_QUADRANT = 4
 
@@ -417,8 +417,8 @@ while running:
     elif state == TEST:
         lin = r.get_lines()
         print(math.floor(lin[0]), math.floor(lin[2]), 'ahhha')
-        """if nav.squareUp(IN_FRONT):
-            print('square')"""
+        if nav.squareUp(IN_FRONT):
+            print('square')
 
 
 
