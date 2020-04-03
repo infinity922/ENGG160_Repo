@@ -417,6 +417,8 @@ while running:
     elif state == TEST:
         lin = r.get_raw_lines()
         print(math.floor(lin[0]), math.floor(lin[2]), 'ahhha')
+        if nav.squareUp(IN_FRONT):
+            print('square')
 
 
 
