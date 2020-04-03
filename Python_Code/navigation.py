@@ -29,6 +29,8 @@ class Navigation:
         self.driver = driver
         self.finishedSquare = True
         self.foundBlack = False
+        self.last_left = 0
+        self.last_right = 0
 
         self.errorLast = 0
         self.integral = 0
@@ -78,14 +80,25 @@ class Navigation:
         lines = self.r.get_lines()
         if direction == IN_FRONT:
             if self.foundBlack:
-                if lines[0] < THRESHOLD - TOLERANCE:
+
+                left_error = lines[0] - TOLERANCE
+                der_term = self.last_left - left_error
+                self.last_left = left_error
+                lp = 0.005*left_error + 0.01*der_term
+
+                right_error = lines[0] - TOLERANCE
+                der_term = self.last_right - right_error
+                self.last_right = right_error
+                rp = 0.005 * right_error + 0.01 * der_term
+
+                """if lines[0] < THRESHOLD - TOLERANCE:
                     lp = lp - 0.3
                 elif lines[0] > THRESHOLD + TOLERANCE:
                     lp = lp + 0.3
                 if lines[2] < THRESHOLD - TOLERANCE:
                     rp = rp - 0.3
                 elif lines[2]> THRESHOLD + TOLERANCE:
-                    rp = rp + 0.3
+                    rp = rp + 0.3"""
                 self.driver.tankDrive(lp,rp)
 
             elif not self.foundBlack:
