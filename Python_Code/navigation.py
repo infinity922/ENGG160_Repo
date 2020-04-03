@@ -9,9 +9,9 @@ THRESHOLD = 20
 TOLERANCE = 5
 
 #  PID Controller Constants:            THESE WILL HAVE TO BE ADJUSTED
-KP = 1
-KI = 1
-KD = 1
+KP = 0.001
+KI = 0
+KD = 0.001
 
 class Navigation:
 

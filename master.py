@@ -34,7 +34,7 @@ driver = Drive(r)  # initialize the driver
 nav = Navigation(r, driver)  # initialize the nav
 # driver.tankDrive(0.5, 0.5)
 running = True
-state = START
+state = TEST
 pos = 0
 pass_direction = RIGHT
 
@@ -414,7 +414,8 @@ while running:
         if state != NEXT_ACTION:
             action_state = 0
     elif state == TEST:
-        print(math.floor(r.get_lines()[0]), 'ahhha')
+        lin = r.get_lines()
+        print(math.floor(lin[0]), math.floor(lin[2]), 'ahhha')
 
 
 
