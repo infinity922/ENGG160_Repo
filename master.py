@@ -134,9 +134,9 @@ def makePass(direction):
         return MAKE_PASS
     elif pass_state == 9:
         if driver.targetReached:
+            passes = passes + 1
             return CONTINUE
         else:
-            passes = passes + 1
             return MAKE_PASS
 
 
