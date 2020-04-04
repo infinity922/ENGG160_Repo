@@ -79,12 +79,9 @@ def start():
     elif start_state == 4:
         if driver.targetReached:
             start_state = 5
-        return False
-    elif start_state == 5:
-        if nav.squareUp(BEHIND):
             return True
-        else:
-            return False
+        return False
+
 
 
 pass_state = 0
