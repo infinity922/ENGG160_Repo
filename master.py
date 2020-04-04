@@ -19,7 +19,7 @@ NEXT_ACTION = 4  # Unused
 TEST = 5  # For testing only
 CONTINUE = 6
 
-RIGHT_TURN = 660
+RIGHT_TURN = 620
 TO_END = 2600
 LIGHT_THRESHOLD = 100  # Light sensors unused
 PASSES_PER_LOAD = 127  # Not unloading, we don't have enough golf balls
@@ -96,7 +96,7 @@ def makePass(direction):
     else:
         turn_dir = COUNTERCLOCKWISE
     if pass_state == 0:
-        driver.startEncoderDrive(TO_END, TO_END, 0.7)
+        driver.startEncoderDrive(TO_END, TO_END)
         pass_state = 1
         return MAKE_PASS
     elif pass_state == 1:
