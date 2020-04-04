@@ -118,9 +118,9 @@ class Drive:
         encs = self.r.get_encoders()
         error = encs[0] / self.targetAmount - encs[1] / self.targetAmount
         self.totalError = self.totalError + error
-        pterm = KP * error
-        dterm = KD * (error - self.lastError)
-        iterm = KI * self.totalError
+        pterm = 1 * error
+        dterm = 0 * (error - self.lastError)
+        iterm = 0 * self.totalError
         offset = pterm + dterm + iterm
         if self.direction == CLOCKWISE:
             self.tankDrive(self.averagePower - offset, -(self.averagePower + offset))
