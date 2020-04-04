@@ -104,7 +104,7 @@ class Drive:
             time.sleep(0.2)
         self.lastError = error
 
-    def startEncoderTurn(self, amount, direction, averagePower = 0.3):
+    def startEncoderTurn(self, amount, direction, averagePower = 0.4):
         self.targetAmount = amount
         self.targetReached = False
         self.lastError = 0
