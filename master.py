@@ -13,35 +13,36 @@ RIGHT = 2
 # state codes
 START = 0
 MAKE_PASS = 1
-UNLOAD = 2
+UNLOAD = 2  # Unused
 STOP = 3
-NEXT_ACTION = 4
-TEST = 5
+NEXT_ACTION = 4  # Unused
+TEST = 5  # For testing only
+CONTINUE = 6
 
 RIGHT_TURN = 650
 TO_END = 3000
-LIGHT_THRESHOLD = 100
-PASSES_PER_LOAD = 127
-PASSES_PER_QUADRANT = 4
+LIGHT_THRESHOLD = 100  # Light sensors unused
+PASSES_PER_LOAD = 127  # Not unloading, we don't have enough golf balls
+PASSES_PER_QUADRANT = 4  # Not using quadrants because of light sensors
+NUM_PASSES = 16
 
 passes = 0
 loaded = False
 
-timeout = 60
+timeout = 300
 
 r = Robot()  # initialize the robot
 driver = Drive(r)  # initialize the driver
 nav = Navigation(r, driver)  # initialize the nav
-# driver.tankDrive(0.5, 0.5)
 running = True
-state = TEST
+state = START
 pos = 0
 pass_direction = RIGHT
 
-calibrating = True
+""" calibrating = True
 calib_state = 0
 
-"""while calibrating:
+while calibrating:
     r.calibrate_lines()
     driver.iterate()
     if calib_state == 0:
@@ -122,7 +123,7 @@ def makePass(direction):
             pass_state = 6
         return MAKE_PASS
     elif pass_state == 6:
-        driver.startEncoderTurn(RIGHT_TURN, direction)
+        driver.startEncoderTurn(RIGHT_TURN, turn_dir)
         pass_state = 7
         return MAKE_PASS
     elif pass_state == 7:
@@ -131,14 +132,18 @@ def makePass(direction):
             pass_state = 8
         return MAKE_PASS
     elif pass_state == 8:
-        if nav.driveToLine():
-            passes += 1
-            driver.stop()
-            return NEXT_ACTION
-        else: 
+        driver.startEncoderDrive(TO_END, TO_END)
+        pass_state = 9
+        return MAKE_PASS
+    elif pass_state == 9:
+        if driver.targetReached:
+            return CONTINUE
+        else:
+            passes = passes + 1
             return MAKE_PASS
 
 
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% UNUSED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 unload_state = 0
 
 
@@ -146,12 +151,14 @@ def unload():
     ls = UNLOAD
 
     return ls
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 def stop():
     pass
 
 
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% UNUSED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 action_state = 0
 
 
@@ -385,6 +392,9 @@ def nextAction():
     return [ls, loc_pass_direction]
 
 
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 while running:
     # r.calibrate_lines()
     if r.board.bytes_available():
@@ -403,6 +413,15 @@ while running:
         state = makePass(pass_direction)
         if state != MAKE_PASS:
             pass_state = 0
+    elif state == CONTINUE:
+        if passes <= NUM_PASSES:
+            if passes % 2 == 0:
+                pass_direction = RIGHT
+            else:
+                pass_direction = LEFT
+            state = MAKE_PASS
+        else:
+            state = STOP
     elif state == UNLOAD:
         state = unload()
         if state != UNLOAD:
@@ -419,9 +438,6 @@ while running:
         print(math.floor(lin[0]), math.floor(lin[2]), 'ahhha')
         """if nav.squareUp(IN_FRONT):
             print('Square')"""
-
-
-
 
 print('done')
 driver.stop()
