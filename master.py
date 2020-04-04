@@ -124,7 +124,6 @@ def makePass(direction):
         pass_state = 7
         return MAKE_PASS
     elif pass_state == 7:
-        print('here now')
         if driver.targetReached:
             pass_state = 8
         return MAKE_PASS

@@ -101,6 +101,7 @@ class Drive:
             self.targetReached = True
             self.driving = False
             self.stop()
+            time.sleep(0.2)
         self.lastError = error
 
     def startEncoderTurn(self, amount, direction, averagePower = 0.3):
@@ -131,6 +132,7 @@ class Drive:
             self.targetReached = True
             self.turning = False
             self.stop()
+            time.sleep(0.2)
 
     def iterate(self):
         """This method should be called in the main loop, it makes sure that all the iterating parts of this class are
