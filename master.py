@@ -24,7 +24,7 @@ TO_END = 2600
 LIGHT_THRESHOLD = 100  # Light sensors unused
 PASSES_PER_LOAD = 127  # Not unloading, we don't have enough golf balls
 PASSES_PER_QUADRANT = 4  # Not using quadrants because of light sensors
-NUM_PASSES = 8
+NUM_PASSES = 6
 
 passes = 0
 loaded = False
