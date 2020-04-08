@@ -24,7 +24,7 @@ TO_END = 2600
 LIGHT_THRESHOLD = 100  # Light sensors unused
 PASSES_PER_LOAD = 127  # Not unloading, we don't have enough golf balls
 PASSES_PER_QUADRANT = 4  # Not using quadrants because of light sensors
-NUM_PASSES = 10
+NUM_PASSES = 8
 
 passes = 0
 loaded = False
@@ -65,7 +65,7 @@ start_state = 0
 def start():
     global start_state
     if start_state == 0:
-        driver.startEncoderDrive(300, 300)
+        driver.startEncoderDrive(700, 700)
         start_state = 2
         return False
     elif start_state == 2:
