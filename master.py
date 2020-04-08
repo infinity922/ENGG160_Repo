@@ -35,7 +35,7 @@ r = Robot()  # initialize the robot
 driver = Drive(r)  # initialize the driver
 nav = Navigation(r, driver)  # initialize the nav
 running = True
-state = TEST
+state = START
 pos = 0
 pass_direction = RIGHT
 
