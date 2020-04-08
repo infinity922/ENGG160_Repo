@@ -35,7 +35,7 @@ r = Robot()  # initialize the robot
 driver = Drive(r)  # initialize the driver
 nav = Navigation(r, driver)  # initialize the nav
 running = True
-state = START
+state = TEST
 pos = 0
 pass_direction = RIGHT
 
@@ -431,7 +431,7 @@ while running:
             action_state = 0
     elif state == TEST:
         if b:
-            driver.startEncoderTurn(RIGHT_TURN, CLOCKWISE)
+            driver.startEncoderDrive(4000, 4000)
             b = False
         elif driver.targetReached:
             state = STOP
