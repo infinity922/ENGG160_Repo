@@ -19,7 +19,7 @@ NEXT_ACTION = 4  # Unused
 TEST = 5  # For testing only
 CONTINUE = 6
 
-RIGHT_TURN = 530
+RIGHT_TURN = 545
 TO_END = 2600
 LIGHT_THRESHOLD = 100  # Light sensors unused
 PASSES_PER_LOAD = 127  # Not unloading, we don't have enough golf balls
