@@ -112,7 +112,7 @@ def makePass(direction):
             pass_state = 4
         return MAKE_PASS
     elif pass_state == 4:
-        driver.startEncoderDrive(750, 750)
+        driver.startEncoderDrive(1100, 1100)
         pass_state = 5
         return MAKE_PASS
     elif pass_state == 5:
