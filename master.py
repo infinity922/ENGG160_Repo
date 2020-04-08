@@ -35,7 +35,7 @@ r = Robot()  # initialize the robot
 driver = Drive(r)  # initialize the driver
 nav = Navigation(r, driver)  # initialize the nav
 running = True
-state = START
+state = TEST
 pos = 0
 pass_direction = RIGHT
 
@@ -389,7 +389,7 @@ def nextAction():
 
 
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+b = True
 
 while running:
     # r.calibrate_lines()
@@ -430,10 +430,11 @@ while running:
         if state != NEXT_ACTION:
             action_state = 0
     elif state == TEST:
-        lin = r.get_lines()
-        print(math.floor(lin[0]), math.floor(lin[2]), 'ahhha')
-        """if nav.squareUp(IN_FRONT):
-            print('Square')"""
+        if b:
+            driver.startEncoderTurn(RIGHT_TURN, CLOCKWISE)
+            b = False
+        elif driver.targetReached:
+            state = STOP
 
 print('done')
 driver.stop()
